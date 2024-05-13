@@ -1,0 +1,96 @@
+{% extends "base.html"%}
+{% block content%}
+
+<div class="container dash">
+    <h2 class="heading">Dashboard</h2>
+    <div class="info">
+        <p class="d-inline-flex gap-1">
+    
+            <button class="btn1" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample1" aria-expanded="false" aria-controls="collapseExample">
+                show your info
+            </button>
+        </p>
+        <div class="collapse" id="collapseExample1">
+            <div class="card card-body">
+            <ul>
+                <li><span class="btn2">username: </span><p class="btn4">{{current_user.username}}</p></li>
+                <li><span class="btn2">First Name: </span><p class="btn4">{{current_user.fname}}</p></li>
+                <li><span class="btn2">Last Name: </span><p class="btn4">{{current_user.lname}}</p></li>
+                <li><span class="btn2">Email:</span><p class="btn4">{{current_user.email}}</p></li>
+            </ul>
+        </div>
+        </div>
+    </div>
+    <!-- start history chat  -->
+    <div class="history-chat" id="historyChat">
+        <p class="d-inline-flex gap-1">
+        
+            <button class="btn1" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample2" aria-expanded="false" aria-controls="collapseExample2">
+                history of your chats
+            </button>
+        </p>
+        <div class="collapse" id="collapseExample2">
+        <div class="card card-body">
+            {% for q , r in dataPackge_chat %}
+        
+        
+            <p class="d-inline-flex gap-1">
+                
+                <button class="btn2" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExampleChat{{q.id}}" aria-expanded="false" aria-controls="collapseExampleChat{{q.id}}">
+              <span>{{q.data}}</span>
+                </button>
+                <span class="btn4">Date:{{q.date}}</span> 
+              </p>
+              <div class="collapse" id="collapseExampleChat{{q.id}}">
+                <div class="card card-body">
+                
+                    <p class="res btn4">{{r.data}}</p>
+                </div>
+              </div>
+            
+        {% endfor %}
+        </div>
+    </div>
+    </div>
+    <!-- end history chat  -->
+
+    <!-- start history summary  -->
+    <div class="history-summ" id="historySumm">
+
+        <p class="d-inline-flex gap-1">
+            <button class="btn1" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample3" aria-expanded="false" aria-controls="collapseExample">
+                  history of your texts
+            </button>
+        </p>
+
+        <div class="collapse" id="collapseExample3">
+            <div class="card card-body">
+                {% for text , summary in dataPackge_Sum %}
+
+                    <p class="d-inline-flex gap-1">
+                        <button class="btn2" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExampleText{{text.id}}" aria-expanded="false" aria-controls="collapseExampleText{{text.id}}">
+                            text id: {{text.id}}
+                        </button>
+                        <span class="btn4">Date:{{text.date}}</span> 
+                    </p>
+                    <div class="collapse" id="collapseExampleText{{text.id}}">
+                        <div class="card card-body">
+                            <div class="cont">
+                            <span class="label">Text:</span>
+                            <p class="text btn4">{{text.data}}</p>
+                            <span class="label">Abstractive Summary:</span>
+                            <p class="sumAbs btn4">{{summary.abs}}</p>
+                            <span class="label">Extractive Summary:</span>
+                            <p class="sumExt btn4">{{summary.ext}}</p>
+                        </div>
+                </div>
+              </div>
+            
+      
+                {% endfor %}
+            </div>
+    </div>
+    </div>
+</div>
+    <!-- end history summary  -->
+{% endblock content%}

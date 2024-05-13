@@ -1,0 +1,42 @@
+{% extends "base.html"%}
+{% block content%}
+   <!-- start text summerization  -->
+   <div class="container">
+<div class="containert">
+    
+    <div class="heading"><h2>Enter your text</h2></div>
+
+
+    <form action="{{ url_for('routes1.predict')}}"method="post">
+        <textarea name="mean_radius" id="textS" class="texts"required placeholder="Enter your text"></textarea>
+    
+        <button type="submit" class="btn1" onclick="spain()">get summary</button>
+        <div class="spain"></div>
+    </form>
+        <div id="summary" class="summery">
+            <div id="abstractive" class="abstractive">
+                <span id="abs_span">Abstractive Summary</span>
+                <p class="abs_t" id="abs_t" >{{summary_abs}}</p>
+                <span class="btn3 copy" id="click1"><i class="fa-regular fa-copy"></i> copy</span>
+            </div>
+    
+    
+            <div id="extractive" class="extractive">
+                <span id="ext_span">Extractive Summary</span>
+                <p class="ext_t" id="ext_t">{{summary_ext}}</p>
+                <span class="btn3 copy" id="click2"><i class="fa-regular fa-copy"></i> copy</span>
+            </div>
+        </div>
+    
+    </div>
+    
+    <!-- end text summerization  -->
+    
+    
+  
+    
+    
+    
+       
+      </div>
+{% endblock content%}

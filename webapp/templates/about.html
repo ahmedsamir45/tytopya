@@ -1,0 +1,104 @@
+{% extends "base.html"%}
+{% block content%}
+<div class="container">
+    <h2 class="heading">About</h2>
+    
+
+<div class="project">
+        <p class="d-block gap-1">
+    
+        <button class="btn1" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample7" on aria-expanded="false" aria-controls="collapseExample7">
+            project
+        </button>
+    </p>
+    <div class="collapse" id="collapseExample7">
+        <div class="card card-body">
+        <p>text summarization and chatbot application using nltk and spacy for data processing, and tensorflow torch and hugging face for modiling <a href="#">Our Search</a> ,and flask and sqlalchemy for back end and HTML CSS JS and bootstrap for UI.</p>
+</div>
+</div>
+</div>
+<div class="data">
+        <p class="d-block gap-1">
+    
+        <button class="btn1" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample4" aria-expanded="false" aria-controls="collapseExample4">
+            Data
+        </button>
+    </p>
+
+
+    <div class="collapse" id="collapseExample4">
+        <div class="card card-body">
+        <p>the data which used in the chatbot is a JASON file contains patterns talk about AI applications and computer science. for text summarization the data is buit in t5-large transformer model</p>
+</div>
+</div>
+</div>
+<div class="models">
+    <p class="d-block-flex gap-1">
+    
+        <button class="btn1" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample5" aria-expanded="false" aria-controls="collapseExample5">
+            Models
+        </button>
+    </p>
+  
+    <div class="collapse" id="collapseExample5">
+        <div class="card card-body">
+        <p>in chatbot we used sequential model and built RNN as similarly a multi classification problem, in text summarization we used t5-transformer model as text to text problem </p>
+</div>
+</div>
+</div>
+<p class="d-block gap-1">
+
+    <button class="btn1" type="button" data-bs-toggle="collapse" data-bs-target="#teamm" aria-expanded="false" aria-controls="teamm">
+      Research Team
+    </button>
+  </p>
+  <div class="collapse" id="teamm">
+    <table>
+        <tr>
+            <th>name</th>
+            <th>cv</th>
+            <th>email</th>
+        </tr>
+        <tr>
+            <td>Mohmed Khaled</td>
+            <td><a href="">cv</a></td>
+            <td><a href="mailto:example@example.com">Send Email</a></td>
+        </tr>
+        <tr>
+            <td>Mohmed Hamdy</td>
+            <td><a href="">cv</a></td>
+            <td><a href="mailto:example@example.com">Send Email</a></td>
+        </tr>
+        <tr>
+            <td>Mohmed Farid</td>
+            <td><a href="">cv</a></td>
+            <td><a href="mailto:example@example.com">Send Email</a></td>
+        </tr>
+        <tr>
+            <td>Ahmed Mostafa</td>
+            <td><a href="">cv</a></td>
+            <td><a href="mailto:example@example.com">Send Email</a></td>
+        </tr>
+        <tr>
+            <td>Omar Fahmy</td>
+            <td><a target="_blank" href="">cv</a></td>
+            <td><a target="_blank" href="mailto:example@example.com">Send Email</a></td>
+        </tr>
+        <tr>
+            <td>Ahmed Samir</td>
+            <td><a target="_blank" href="https://drive.google.com/drive/u/0/folders/1rR8PseIKDfnAgEscw6UfLx4gKKL7I9MZ">cv</a></td>
+            <td><a target="_blank" href="mailto:ahmedsamer6788@gmail.com">Send Email</a></td>
+        </tr>
+        
+    </table>
+  </div>
+
+<div class="feadback">
+    <h3>Feedback</h3>
+    <form action="" method="post">
+    <textarea id="feadback" name="feadback" class="feadback"></textarea>
+    <button class="btn btn-primary">submit</button>
+</form>
+</div>
+</div>
+{% endblock content%}

@@ -1,0 +1,13 @@
+flask
+flask-sqlalchemy==3.0.5
+flask-wtf
+email_validator
+transformers
+sentencepiece
+datasets transformers[sentencepiece]
+spacy
+nltk
+flask-bcrypt
+flask-login
+flask-cors
+flask-admin

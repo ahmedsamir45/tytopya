@@ -1,0 +1,61 @@
+button{
+    margin: 30px auto;
+    display: block;
+}
+#collapseExample6{
+    display: flex;
+    justify-content: center;
+}
+table{
+    margin: 30px auto;
+    display: block;
+    border: 1px rgb(166, 52, 166) solid;
+    border-radius: 30px 0 30px 0;
+    background-color: white;
+    box-shadow:13px 13px 20px #cbced1 ;
+    overflow: hidden;
+    width: fit-content;
+}
+.btn1{
+    width: 200px;
+    text-align: center;
+}
+table td , table th {
+    margin: 10px;
+    padding: 10px;
+    text-align: center;
+    transition: 0.5s;
+}
+
+tr:not(:first-child):hover{
+    background-color: rgb(214, 121, 228);
+    color: white;
+
+}
+
+.feadback h3{
+    margin:20px auto;
+    display: block;
+    width: fit-content;
+    padding: 10px;
+}
+textarea{
+    display: block;
+    width: 30rem;
+    margin: 20px auto;
+    height: 200px;
+    border-radius: 10px;
+    padding: 20px;
+}
+@media (max-width:780px) {
+    textarea{
+        width: 20rem;
+    }
+}
+.btn{
+    display: block !important;
+    margin: 10px auto;
+}
+.project a{
+    display: inline !important;
+}

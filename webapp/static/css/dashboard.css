@@ -1,0 +1,44 @@
+
+.dash div{
+    margin-bottom: 30px;
+}
+
+.dash ul li {
+    margin: 20px;
+}
+
+.dash ul li p{
+    display: inline;
+}
+
+.info span{
+    width: 150px !important;
+    display: inline-block;
+    text-align: center;
+
+}
+.btn4{
+    width: fit-content;
+    display: block;
+    padding: 10px;
+    text-align: center;
+    border: none;
+    border-radius: 30px;
+    background-color: rgb(205, 205, 196);
+}
+
+.label{
+    display: block;
+    text-align: center;
+    width: fit-content;
+    padding: 10px;
+    margin: 10px auto;
+    background-color: rgb(220, 145, 239);
+    color: white;
+    border-radius: 50px;
+}
+.cont{
+    background-color: rgb(186, 179, 187) !important;
+    border-radius: 30px !important;
+    padding: 10px;
+}
