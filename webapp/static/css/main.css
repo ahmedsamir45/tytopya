@@ -86,8 +86,11 @@ ul{
   padding: 0;
   box-sizing: border-box;
   font-family: "Poppins", sans-serif;
+ 
 }
-
+p,h2{
+  text-transform: capitalize;
+}
 /* end global */
 
 /* start navbar */

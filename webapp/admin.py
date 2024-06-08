@@ -1,8 +1,8 @@
 from flask import Blueprint
 from flask_admin.contrib.sqla import ModelView
 from flask_admin import AdminIndexView
-from .models import User,Question,Feedbacks,Response,Texts,Summaries
-from webapp import db,bcrypt
+
+from webapp import bcrypt
 from flask_login import current_user
 
 

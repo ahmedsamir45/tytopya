@@ -42,3 +42,20 @@
     border-radius: 30px !important;
     padding: 10px;
 }
+.close{
+    background-color: red;
+    color: white;
+    border: 1px white solid;
+    padding: 5px;
+    margin: 5px;
+    border-radius: 8px;
+}
+.close span{
+    color: white;
+}
+small{
+    background-color: white;
+    border-radius: 4px;
+    padding: 5px;
+    margin-left: 3px ;
+}

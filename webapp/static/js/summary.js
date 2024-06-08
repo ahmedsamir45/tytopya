@@ -1,61 +1,101 @@
 
-
-
+// ###############get the elements ##########
 const ext_sum = document.querySelector("#ext_t");
 const abs_sum = document.querySelector("#abs_t");
 const extractive = document.querySelector("#extractive")
 const abstractive = document.querySelector("#abstractive")
 let temp=0 ;
-function summary(){
-    if(ext_sum.innerHTML==""){
-        extractive.style.display="none"
+
+// ##############  summary function #############
+// ext_sum.addEventListener("load",function(){
+//     if (this.innerHTML!='undefined'){
+//         extractive.classList.add("active")
+//     }
+//     else{
+//         extractive.classList.remove("active")
+//     }
+// })
+// abs_sum.addEventListener("load",function(){
+//     if (this.innerHTML!='undefined'){
+//         abstractive.classList.add("active")
+//     }
+//     else{
+//         abstractive.classList.remove("active")
+//     }
+// })
+
+function EXTsummary(){
+    if(ext_sum.innerHTML=="undefined"||ext_sum.innerHTML==undefined){
+        ext_sum.innerHTML =""
     }
-    if(abs_sum.innerHTML==""){
-        abstractive.style.display="none"
-    }
-}
-
-summary();
-const textS = document.querySelector("#textS")
-const Spain = document.querySelector(".spain")
-
-function spain(){
-
-    if (textS.innerHTML!=null && temp===0){
-        Spain.style.cssText=`  display: block;
-        width: 40px !important;
-        height: 40px !important;
-    
-    
-      
-        border-radius: 50%;
-        border: 5px solid #e91e63;
-        transform: rotate(1turn);
-        transition: transform 3s;
-        border-left-color:transparent ;
-
-        
-        `
-    
+    if(ext_sum.innerHTML!=""){
+        extractive.classList.add("active")
     }
     else{
-        Spain.style.display=`  display: none;
-        width: 40px !important;
-        height: 40px !important;
-        
-        
-        
-        border-radius: 50%;
-        border: 5px solid #e91e63;
-        transform: rotate(1turn);
-        transition: transform 3s;
-        border-left-color:transparent ;
-       
-    `
+        extractive.classList.remove("active")
     }
-    temp=1
+ 
 }
+function ABSsummary(){
+    if(abs_sum.innerHTML=="undefined"||abs_sum.innerHTML==undefined){
+        abs_sum.innerHTML =""
+    }
+    if(abs_sum.innerHTML!=""){
+        abstractive.classList.add("active")
+    }
+    else{
+        abstractive.classList.remove("active")
+    }
+}
+ABSsummary()
+EXTsummary()
 
+
+
+
+
+// ########### spain loop function ###################
+const textS = document.getElementById("textS")
+const Spain = document.querySelector(".spain")
+let textFild 
+const button = document.getElementById("btext");
+
+
+textS.addEventListener(("input"),function(){
+    if (this.value !=""){
+        button.classList.add("activeAnimation")
+    } 
+    else{
+        button.classList.remove("activeAnimation")
+    }
+
+})
+
+
+
+
+
+button.addEventListener("click",function(){
+    if (textS.value != ""){
+        Spain.classList.add("active")
+        extractive.classList.remove("active")
+        abstractive.classList.remove("active")
+    }
+    else{
+        Spain.classList.remove("active")
+        extractive.classList.add("active")
+        abstractive.classList.add("active")
+    }
+})
+
+// textS.addEventListener("input",function(){
+//     extractive.classList.add("active")
+//     abstractive.classList.add("active")
+// })
+
+
+
+///////////// copy function ///////////////////////////
 const copiedText = document.getElementById('abs_t');
 const textToCopy = document.getElementById('click1');
 
@@ -105,6 +145,16 @@ textToCopy2.addEventListener('click', () => {
 });
 
 
+
+
+
+
+
+
+
+
+
+//////////////typing effect functions ////////////////////////
 var myText1 = abs_sum.textContent
 
 let temp2=0
@@ -139,3 +189,5 @@ let temp3=0
 if (myText2 != null){
     typing2()
 }
+
+

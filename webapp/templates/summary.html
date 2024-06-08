@@ -7,23 +7,32 @@
     <div class="heading"><h2>Enter your text</h2></div>
 
 
-    <form action="{{ url_for('routes1.predict')}}"method="post">
+    <form action="{{ url_for('summarization1.predict')}}"method="post">
         <textarea name="mean_radius" id="textS" class="texts"required placeholder="Enter your text"></textarea>
     
-        <button type="submit" class="btn1" onclick="spain()">get summary</button>
+        <button type="submit" class="btn1"id="btext" onclick="spain()" >get summary</button>
         <div class="spain"></div>
     </form>
         <div id="summary" class="summery">
             <div id="abstractive" class="abstractive">
                 <span id="abs_span">Abstractive Summary</span>
+                {% if summary_abs %}
                 <p class="abs_t" id="abs_t" >{{summary_abs}}</p>
+                {% else %}
+                <p class="abs_t" id="abs_t" ></p>
+                {% endif %}
                 <span class="btn3 copy" id="click1"><i class="fa-regular fa-copy"></i> copy</span>
             </div>
     
     
             <div id="extractive" class="extractive">
                 <span id="ext_span">Extractive Summary</span>
+                {% if summary_ext %}
                 <p class="ext_t" id="ext_t">{{summary_ext}}</p>
+                {% else %}
+                <p class="ext_t" id="ext_t"></p>
+                {% endif %}
+              
                 <span class="btn3 copy" id="click2"><i class="fa-regular fa-copy"></i> copy</span>
             </div>
         </div>

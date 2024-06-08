@@ -100,12 +100,3 @@ class Chatbox {
 const chatbox = new Chatbox();
 chatbox.display();
 
-const portNumber = window.location.port || "80";
-let protocol = window.location.protocol;
-if (protocol !== "https:") {
-    protocol = "http:";
-}
-console.log(protocol)
-console.log(window.location.hostname)
-console.log(portNumber)
-console.log(`${protocol}//${window.location.hostname}:${portNumber}`)

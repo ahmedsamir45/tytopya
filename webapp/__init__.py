@@ -27,6 +27,9 @@ def create_app():
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = True
 
     from .routes import routes1
+    from .auth import auth1
+    from .summarization import summarization1
+    from .chatbot import chatbot1
     from .admin import adminnbp, MyAdminIndexView,MyModelView,UserModelView
     from .models import User,Question,Texts,Response,Summaries,Feedbacks
 
@@ -46,6 +49,9 @@ def create_app():
 
     app.register_blueprint(adminnbp)
     app.register_blueprint(routes1)
+    app.register_blueprint(auth1)
+    app.register_blueprint(chatbot1)
+    app.register_blueprint(summarization1)
 
     with app.app_context():
         db.create_all()

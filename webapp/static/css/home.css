@@ -48,6 +48,7 @@
     max-width: 700px;
     text-align: justify;
     text-align-last: justify;
+    text-transform: none;
 }
 
 .getStarted{

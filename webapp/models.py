@@ -31,6 +31,7 @@ class Texts(db.Model):
     date = db.Column(db.DateTime,nullable=False,default=datetime.utcnow )
 
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    count = db.Column(db.Integer)
 
 
 class Summaries(db.Model):
