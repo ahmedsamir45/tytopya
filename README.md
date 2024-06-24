@@ -1,27 +1,61 @@
-# tytopya
-### the project is about abstractive text summarization , extractive text summarization and chatbot 
-## features:-
-* responsive
-* animation
-* login & register
-* history of summaries
-* history of chats
-* cruds system without update
-* add feedback about the project
+# Tytopya
 
-## technologies:-
-### ui
-* html
-* css
-* js
-### backend
-* flask
-* sqlalchemy
-### models
-* sequential (RNN)
-* t5-large
-### NLP
-* nltk
-* spacy
+## Description
+Tytopya is a project focused on abstractive text summarization, extractive text summarization, and a chatbot.
 
-<a herf="https://drive.google.com/file/d/1ITdAK8VfUG73gKDb3NsjtkKbkFqShuMP/view">our research</a>
+## Features:
+- Responsive design
+- Animations
+- Login & register functionality
+- History of summaries
+- History of chats
+- CRUD system without update functionality
+- Feedback about the project
+
+## Technologies:
+### UI:
+- HTML
+- CSS
+- JavaScript
+
+### Backend:
+- Flask
+- SQLAlchemy
+
+### Models:
+- Sequential (RNN)
+- T5-Large
+
+### NLP:
+- NLTK
+- spaCy
+
+## Research
+[Our Research](https://drive.google.com/file/d/1ITdAK8VfUG73gKDb3NsjtkKbkFqShuMP/view)
+
+## Installation
+1. Clone the repository:
+    ```bash
+    git clone https://github.com/yourusername/tytopya.git
+    ```
+2. Navigate to the project directory:
+    ```bash
+    cd tytopya
+    ```
+3. Install the required packages:
+    ```bash
+    pip install -r requirements.txt
+    ```
+
+## Usage
+1. Run the Flask application:
+    ```bash
+    flask run
+    ```
+2. Open your browser and go to `http://localhost:5000`.
+
+
+
+## License
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
