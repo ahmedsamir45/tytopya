@@ -1,14 +1,14 @@
-from flask import Flask, render_template, url_for, flash, redirect, config
+from flask import Flask
 from flask_bcrypt import Bcrypt
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 from flask_cors import CORS
 from flask_admin import Admin
+from dotenv import load_dotenv 
+import os
 
 
-
-
-
+load_dotenv()
 app = Flask(__name__)
 
 db = SQLAlchemy()
@@ -22,7 +22,7 @@ cros = CORS()
 
 def create_app():
     app = Flask(__name__)
-    app.config['SECRET_KEY'] = '3235T90IKEGARJOPAKFFWJAVSOZDMKrgrest5234tfbhu8iklo09iuytr'
+    app.config['SECRET_KEY'] =os.getenv("my_secrit_key")
     app.config["SQLALCHEMY_DATABASE_URI"] = 'sqlite:///tytopya.db'
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = True
 
