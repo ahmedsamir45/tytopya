@@ -7,45 +7,28 @@ const abstractive = document.querySelector("#abstractive")
 let temp=0 ;
 
 // ##############  summary function #############
-// ext_sum.addEventListener("load",function(){
-//     if (this.innerHTML!='undefined'){
-//         extractive.classList.add("active")
-//     }
-//     else{
-//         extractive.classList.remove("active")
-//     }
-// })
-// abs_sum.addEventListener("load",function(){
-//     if (this.innerHTML!='undefined'){
-//         abstractive.classList.add("active")
-//     }
-//     else{
-//         abstractive.classList.remove("active")
-//     }
-// })
-
+const textS = document.getElementById("textS")
 function EXTsummary(){
-    if(ext_sum.innerHTML=="undefined"||ext_sum.innerHTML==undefined){
-        ext_sum.innerHTML =""
-    }
+    if (ext_sum!= null){
     if(ext_sum.innerHTML!=""){
+
         extractive.classList.add("active")
     }
     else{
         extractive.classList.remove("active")
     }
+}
  
 }
 function ABSsummary(){
-    if(abs_sum.innerHTML=="undefined"||abs_sum.innerHTML==undefined){
-        abs_sum.innerHTML =""
-    }
+    if (abs_sum!= null){
     if(abs_sum.innerHTML!=""){
         abstractive.classList.add("active")
     }
     else{
         abstractive.classList.remove("active")
     }
+}
 }
 ABSsummary()
 EXTsummary()
@@ -55,13 +38,24 @@ EXTsummary()
 
 
 // ########### spain loop function ###################
-const textS = document.getElementById("textS")
+
 const Spain = document.querySelector(".spain")
 let textFild 
 const button = document.getElementById("btext");
-
+const paste1 = document.getElementById("paste");
 
 textS.addEventListener(("input"),function(){
+    if (this.value !=""){
+        button.classList.add("activeAnimation")
+    } 
+    else{
+        button.classList.remove("activeAnimation")
+    }
+
+})
+
+
+paste1.addEventListener(("click"),function(){
     if (this.value !=""){
         button.classList.add("activeAnimation")
     } 
@@ -87,11 +81,6 @@ button.addEventListener("click",function(){
         abstractive.classList.add("active")
     }
 })
-
-// textS.addEventListener("input",function(){
-//     extractive.classList.add("active")
-//     abstractive.classList.add("active")
-// })
 
 
 
@@ -191,3 +180,10 @@ if (myText2 != null){
 }
 
 
+/////////////////////// paste ///////////////////////////
+function paste(){
+    navigator.clipboard.readText()
+    .then(txt => {
+        textS.value = txt
+    })
+}

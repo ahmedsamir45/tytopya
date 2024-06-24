@@ -14,7 +14,54 @@
   background-size: 400%;
   margin-top: 20px;
 }
+::-webkit-scrollbar {
+  width: 12px;
+}
 
+::-webkit-scrollbar-thumb {
+  background-color: #7947a7;
+  border-radius: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+.alert{
+  display:flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+  gap: 20px;
+  position: fixed !important;
+  top: 115px;
+  width: 100%;
+
+}
+.alert button{
+width: fit-content !important;
+padding: 0 !important;
+margin: 0;
+background-color: inherit;
+border: none;
+font-size: 30px;
+
+}
+.alert button span{
+  color: black !important;
+}
+.title{
+  display:block;
+  width: 300px;
+  padding: 5px;
+  margin: 20px auto;
+  border-radius: 10px;
+  border: none;
+  outline: none;
+}
+.title:focus{
+  border: none;
+}
 @keyframes changeColor {
   0% {
     background-position: left;
@@ -66,7 +113,10 @@ ul{
   margin: 0;
   padding: 0;
   list-style: none;
-
+}
+*::selection {
+  background: #4CAF50;
+  color: #fff;
 }
 .heading {
   width: fit-content !important;
@@ -77,7 +127,7 @@ ul{
   padding: 5px;
 }
 .container{
-  margin-top: 150px !important;
+  margin-top: 175px !important;
   margin-bottom: 150px !important;
 }
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap');
@@ -440,4 +490,5 @@ footer span{
 footer a{
   display: inline !important;
 }
+
 /* end footer  */

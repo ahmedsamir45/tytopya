@@ -1,6 +1,8 @@
-button{
+button.btn1{
     margin: 30px auto;
     display: block;
+    width: 200px !important;
+    text-align: center !important;
 }
 #collapseExample6{
     display: flex;
@@ -16,10 +18,7 @@ table{
     overflow: hidden;
     width: fit-content;
 }
-.btn1{
-    width: 200px;
-    text-align: center;
-}
+
 table td , table th {
     margin: 10px;
     padding: 10px;
@@ -30,7 +29,6 @@ table td , table th {
 tr:not(:first-child):hover{
     background-color: rgb(214, 121, 228);
     color: white;
-
 }
 
 .feadback h3{
@@ -52,10 +50,11 @@ textarea{
         width: 20rem;
     }
 }
-.btn{
+ .btn{
     display: block !important;
     margin: 10px auto;
 }
 .project a{
     display: inline !important;
 }
+

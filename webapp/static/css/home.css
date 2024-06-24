@@ -8,7 +8,7 @@
     flex-wrap: wrap;
 }
 .container{
-    margin-top: 147px;
+        margin-top: 230px !important;
 }
 .home-img {
     max-width: 100%;

@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container">
+    
+    {% if length == 0 %}
+        <p>Not Found</p>
+    {% endif %}
+    {% for text, summary in dataPackge_Sum %}
+        <div class="card card-body">
+            <div class="cont">
+                <h3 class="heading">{{ text.title }}</h3>
+                <span class="label">Text:</span>
+                <p class="text btn4">{{ text.data }}<small>Date: {{ text.date }}</small></p>
+                <span class="label">Abstractive Summary:</span>
+                <p class="sumAbs btn4">{{ summary.abs }}</p>
+                <span class="label">Extractive Summary:</span>
+                <p class="sumExt btn4">{{ summary.ext }}</p>
+            </div>
+        </div>
+    {% endfor %}
+
+</div>
+
+{% endblock content %}

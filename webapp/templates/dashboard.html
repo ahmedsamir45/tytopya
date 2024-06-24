@@ -1,100 +1,111 @@
-{% extends "base.html"%}
-{% block content%}
+{% extends "base.html" %}
+{% block content %}
 
 <div class="container dash">
     <h2 class="heading">Dashboard</h2>
+
     <div class="info">
-        <p class="d-inline-flex gap-1">
-    
-            <button class="btn1" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample1" aria-expanded="false" aria-controls="collapseExample">
-                show your info
+        <p class="">
+            <button class="btn1" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample1" aria-expanded="false" aria-controls="collapseExample1">
+                Show your info
             </button>
         </p>
         <div class="collapse" id="collapseExample1">
             <div class="card card-body">
-            <ul>
-                <li><span class="btn2">username: </span><p class="btn4">{{current_user.username}}</p></li>
-                <li><span class="btn2">First Name: </span><p class="btn4">{{current_user.fname}}</p></li>
-                <li><span class="btn2">Last Name: </span><p class="btn4">{{current_user.lname}}</p></li>
-                <li><span class="btn2">Email:</span><p class="btn4">{{current_user.email}}</p></li>
-            </ul>
-        </div>
+                <ul>
+                    <li><span class="btn2">Username: </span><p class="btn4">{{current_user.username}}</p></li>
+                    <li><span class="btn2">First Name: </span><p class="btn4">{{current_user.fname}}</p></li>
+                    <li><span class="btn2">Last Name: </span><p class="btn4">{{current_user.lname}}</p></li>
+                    <li><span class="btn2">Email: </span><p class="btn4">{{current_user.email}}</p></li>
+                </ul>
+            </div>
         </div>
     </div>
-    <!-- start history chat  -->
+
+    <!-- Start history chat -->
     <div class="history-chat" id="historyChat">
-        <p class="d-inline-flex gap-1">
-        
+        <p class="">
             <button class="btn1" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample2" aria-expanded="false" aria-controls="collapseExample2">
-                history of your chats
+                History of your chats ({{count_chat}})
             </button>
-    
         </p>
+        {% if count_chat !=0 %}
         <div class="collapse" id="collapseExample2">
-        <div class="card card-body">
-            {% for q , r in dataPackge_chat %}
-        
-        
-            <p class="d-inline-flex gap-1">
-                
-                <button class="btn2" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExampleChat{{q.id}}" aria-expanded="false" aria-controls="collapseExampleChat{{q.id}}">
-              <span>{{q.data}}</span>
-                </button>
-           
-              </p>
-              <div class="collapse" id="collapseExampleChat{{q.id}}">
-                <div class="card card-body">
-                
-                    <p class="res btn4">{{r.data}}<small>{{q.date}}</small> </p>
-                </div>
-              </div>
-            
-        {% endfor %}
-        </div>
-    </div>
-    </div>
-    <!-- end history chat  -->
-
-    <!-- start history summary  -->
-    <div class="history-summ" id="historySumm">
-
-        <p class="d-inline-flex gap-1">
-            <button class="btn1" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample3" aria-expanded="false" aria-controls="collapseExample">
-                  history of your texts count:({{count}})
-            </button>
-        </p>
-
-        <div class="collapse" id="collapseExample3">
             <div class="card card-body">
-                {% for text , summary in dataPackge_Sum %}
-
+                {% for q, r in dataPackge_chat %}
                     <p class="d-inline-flex gap-1">
-                        <button class="btn2" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExampleText{{text.id}}" aria-expanded="false" aria-controls="collapseExampleText{{text.id}}">
-                            text id: {{text.id}}
+                        <button class="btn2" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExampleChat{{q.id}}" aria-expanded="false" aria-controls="collapseExampleChat{{q.id}}">
+                            <span>{{q.data}}</span>
                         </button>
-                        <button type="button" class="close" onclick="deleteText({{text.id}})" >
+                        <button type="button" class="close" onclick="deleteMessage({{q.id}})">
                             <span aria-hidden="true">Delete &times;</span>
                         </button>
-                        
+                    </p>
+                    <div class="collapse" id="collapseExampleChat{{q.id}}">
+                        <div class="card card-body">
+                            <p class="res btn4">{{r.data}}<small>{{q.date}}</small></p>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% else %}
+        <div class="collapse" id="collapseExample2">
+            <div class="card card-body">
+                <p class="text-center">No chats found</p>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+    <!-- End history chat -->
+
+    <!-- Start history summary -->
+    <div class="history-summ" id="historySumm">
+        <p class="">
+            <button class="btn1" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample3" aria-expanded="false" aria-controls="collapseExample3">
+                History of your texts count: ({{count}})
+            </button>
+        </p>
+        {% if count != 0 %}
+        <div class="collapse" id="collapseExample3">
+            <form action="/search" method="post">
+                <input type="text" id="title" class="title" name="search" placeholder="write title">
+                <input type="submit" value="search" class="btn btn-primary">
+            </form>
+            <div class="card card-body">
+                {% for text, summary in dataPackge_Sum %}
+                    <p class="d-inline-flex gap-1">
+                        <button class="btn2" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExampleText{{text.id}}" aria-expanded="false" aria-controls="collapseExampleText{{text.id}}">
+                            {{text.title}}
+                        </button>
+                        <button type="button" class="close" onclick="deleteText({{text.id}})">
+                            <span aria-hidden="true">Delete &times;</span>
+                        </button>
                     </p>
                     <div class="collapse" id="collapseExampleText{{text.id}}">
                         <div class="card card-body">
                             <div class="cont">
-                            <span class="label">Text:</span>
-                            <p class="text btn4">{{text.data}}<small >Date:{{text.date}}</small> </p>
-                            <span class="label">Abstractive Summary:</span>
-                            <p class="sumAbs btn4">{{summary.abs}}</p>
-                            <span class="label">Extractive Summary:</span>
-                            <p class="sumExt btn4">{{summary.ext}}</p>
+                                <span class="label">Text:</span>
+                                <p class="text btn4">{{text.data}}<small>Date: {{text.date}}</small></p>
+                                <span class="label">Abstractive Summary:</span>
+                                <p class="sumAbs btn4">{{summary.abs}}</p>
+                                <span class="label">Extractive Summary:</span>
+                                <p class="sumExt btn4">{{summary.ext}}</p>
+                            </div>
                         </div>
-                </div>
-              </div>
-            
-    
+                    </div>
                 {% endfor %}
             </div>
+        </div>
+        {% else %}
+        <div class="collapse" id="collapseExample3">
+            <div class="card card-body">
+                <p class="text-center">No texts found</p>
+            </div>
+        </div>
+        {% endif %}
     </div>
-    </div>
+    <!-- End history summary -->
 </div>
-    <!-- end history summary  -->
-{% endblock content%}
+
+{% endblock content %}

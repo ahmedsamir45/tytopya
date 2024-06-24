@@ -32,7 +32,7 @@ def create_app():
     from .chatbot import chatbot1
     from .admin import adminnbp, MyAdminIndexView,MyModelView,UserModelView
     from .models import User,Question,Texts,Response,Summaries,Feedbacks
-
+    from .hidden import errors
     bcrypt.init_app(app)
     cros.init_app(app)
     db.init_app(app)
@@ -52,6 +52,7 @@ def create_app():
     app.register_blueprint(auth1)
     app.register_blueprint(chatbot1)
     app.register_blueprint(summarization1)
+    app.register_blueprint(errors)
 
     with app.app_context():
         db.create_all()

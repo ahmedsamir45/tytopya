@@ -26,18 +26,18 @@ class Response(db.Model):
 
 class Texts(db.Model):
     id = db.Column(db.Integer,primary_key = True)
-    data = db.Column(db.String(10000000))
-
+    title = db.Column(db.String(30))
+    data = db.Column(db.String(100000000))
     date = db.Column(db.DateTime,nullable=False,default=datetime.utcnow )
-
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     count = db.Column(db.Integer)
 
 
 class Summaries(db.Model):
     id = db.Column(db.Integer,primary_key = True)
-    abs = db.Column(db.String(10000000))
-    ext = db.Column(db.String(10000000))
+    title = db.Column(db.String(30))
+    abs = db.Column(db.String(100000000))
+    ext = db.Column(db.String(100000000))
     date = db.Column(db.DateTime,nullable=False,default=datetime.utcnow )
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 

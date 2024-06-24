@@ -77,21 +77,30 @@
 
       <!-- end nav bar -->
     <!-- start flash messages  -->
-      {% with messages = get_flashed_messages(with_categories=true) %}
-        {% if messages %}
-          {% for category, message in messages %}
-            <div class="alert alert-{{category}} text-center" style="margin-top: 150px;">
-                {{message}}
-            </div>
-          {% endfor %}
-        {% endif %}
-      {% endwith %}
+ <!-- Start flash messages -->
+{% with messages = get_flashed_messages(with_categories=true) %}
+{% if messages %}
+  {% for category, message in messages %}
+    <div class="alert alert-{{ category }} text-center  alter-dismissable fade show" >
+
+      {{ message }}
+
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+      
+    </div>
+  {% endfor %}
+{% endif %}
+{% endwith %}
+<!-- End flash messages -->
+
     <!-- End flash messages  -->
       
         {% block content %}
      
 
-        {% endblock %}
+        {% endblock content %}
 
        <!-- chatbot -->
        <div class="container">
@@ -147,6 +156,13 @@
         <script src="../static/js/bootstrap.bundle.min.js" defer></script>
         <script src="../static/js/bootstrap.bundle.min.js.map" defer></script>
         <script src="../static/js/all.min.js" defer></script>
+
+
+        <!-- jQuery, Popper.js, and Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
     
     </body>
 </html>

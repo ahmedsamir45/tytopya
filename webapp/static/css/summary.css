@@ -38,7 +38,25 @@ align-items: center;
 gap: 20px;
 flex-direction: column;
 }
+.texts::-webkit-scrollbar {
+  width: 12px; /* Width of the scrollbar */
+}
 
+.texts:-webkit-scrollbar-track {
+  background: #e9ecef; /* Background of the scrollbar track */
+  transition: 1s;
+}
+
+.texts::-webkit-scrollbar-thumb {
+  background: #7947a7; /* Background of the scrollbar thumb */
+  border-radius: 6px; /* Rounded corners for the scrollbar thumb */
+  transition: 1s;
+}
+
+.texts::-webkit-scrollbar-thumb:hover {
+  background: #681caa; /* Darker background on hover */
+  transition: 1s;
+}
 
 
 /* Summary styles */

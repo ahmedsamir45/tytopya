@@ -39,6 +39,7 @@ def summary():
 def predict():
 
     text = request.form.get("mean_radius")
+    title = request.form.get("title")
     # abstractive
     text = ''.join(text)
     preprocessed_text = text.strip().replace('\n','')
@@ -88,8 +89,8 @@ def predict():
 
     if current_user.is_authenticated:
         count = len(Texts.query.filter_by(user_id=current_user.id).all())+1
-        text = Texts(data=text, user_id=current_user.id,count=count)
-        summary = Summaries(abs=summary_abs, ext=summary_ext, user_id=current_user.id )
+        text = Texts(data=text, user_id=current_user.id,count=count ,title=title)
+        summary = Summaries(abs=summary_abs, ext=summary_ext, user_id=current_user.id ,title=title)
         try:
             
             db.session.add(text)

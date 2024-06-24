@@ -6,3 +6,11 @@ function deleteText(textId){
         window.location.href = "/dashboard"
     })
 }
+function deleteMessage(mId){
+    fetch("/deletemessage",{
+        method:"POST",
+        body: JSON.stringify({mId:mId})
+    }).then((_res)=>{
+        window.location.href = "/dashboard"
+    })
+}

@@ -1,0 +1,47 @@
+.btn4{
+    width: fit-content;
+    display: block;
+    padding: 10px;
+    text-align: center;
+    border: none;
+    border-radius: 30px;
+    background-color: rgb(205, 205, 196);
+}
+
+.label{
+    display: block;
+    text-align: center;
+    width: fit-content;
+    padding: 10px;
+    margin: 10px auto;
+    background-color: rgb(220, 145, 239);
+    color: white;
+    border-radius: 50px;
+}
+.cont{
+    background-color: rgb(186, 179, 187) !important;
+    border-radius: 30px !important;
+    padding: 10px;
+}
+.close{
+    background-color: red;
+    color: white;
+    border: 1px white solid;
+    padding: 5px;
+    margin: 5px;
+    border-radius: 8px;
+}
+.close span{
+    color: white;
+}
+small{
+    background-color: white;
+    border-radius: 4px;
+    padding: 5px;
+    margin-left: 3px ;
+}
+
+footer{
+    position: fixed;
+    bottom: 0;
+  }
