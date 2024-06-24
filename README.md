@@ -50,7 +50,7 @@ Tytopya is a project focused on abstractive text summarization, extractive text 
 ## Usage
 1. Run the Flask application:
     ```bash
-    flask run
+    app.py runserver
     ```
 2. Open your browser and go to `http://localhost:5000`.
 
