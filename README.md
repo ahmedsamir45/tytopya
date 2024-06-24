@@ -21,5 +21,7 @@
 * sequential (RNN)
 * t5-large
 ### NLP
-*nltk
-*spacy
+* nltk
+* spacy
+
+<a herf="https://drive.google.com/file/d/1ITdAK8VfUG73gKDb3NsjtkKbkFqShuMP/view">our research<a>
