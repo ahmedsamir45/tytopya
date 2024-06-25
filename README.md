@@ -18,7 +18,7 @@ Tytopya is a project focused on abstractive text summarization, extractive text 
 - HTML
 - CSS
 - JavaScript
-- bootstrab
+- Bootstrap (Framework)
 
 ### Backend:
 - Flask
