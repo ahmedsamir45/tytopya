@@ -30,6 +30,10 @@ Tytopya is a project focused on abstractive text summarization, extractive text 
 - NLTK
 - spaCy
 
+### security
+- password hashing
+- secure from CSRF attack
+
 ## Research
 [Our Research](https://drive.google.com/file/d/1ITdAK8VfUG73gKDb3NsjtkKbkFqShuMP/view)
 
