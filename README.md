@@ -11,12 +11,14 @@ Tytopya is a project focused on abstractive text summarization, extractive text 
 - History of chats
 - CRUD system without update functionality
 - Feedback about the project
-
+- error pages
+- admin page
 ## Technologies:
 ### UI:
 - HTML
 - CSS
 - JavaScript
+- bootstrab
 
 ### Backend:
 - Flask
