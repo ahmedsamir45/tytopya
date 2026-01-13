@@ -1,111 +1,299 @@
 {% extends "base.html" %}
 {% block content %}
-
-<div class="container dash">
-    <h2 class="heading">Dashboard</h2>
-
-    <div class="info">
-        <p class="">
-            <button class="btn1" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample1" aria-expanded="false" aria-controls="collapseExample1">
-                Show your info
-            </button>
-        </p>
-        <div class="collapse" id="collapseExample1">
-            <div class="card card-body">
-                <ul>
-                    <li><span class="btn2">Username: </span><p class="btn4">{{current_user.username}}</p></li>
-                    <li><span class="btn2">First Name: </span><p class="btn4">{{current_user.fname}}</p></li>
-                    <li><span class="btn2">Last Name: </span><p class="btn4">{{current_user.lname}}</p></li>
-                    <li><span class="btn2">Email: </span><p class="btn4">{{current_user.email}}</p></li>
-                </ul>
-            </div>
-        </div>
+<div class="container animate-section" style="margin-top: 100px; margin-bottom: 50px;">
+    
+    <div class="text-center mb-5">
+        <h2 class="heading-glass">User Dashboard</h2>
+        <p class="lead text-muted">Manage your profile and history.</p>
     </div>
 
-    <!-- Start history chat -->
-    <div class="history-chat" id="historyChat">
-        <p class="">
-            <button class="btn1" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample2" aria-expanded="false" aria-controls="collapseExample2">
-                History of your chats ({{count_chat}})
-            </button>
-        </p>
-        {% if count_chat !=0 %}
-        <div class="collapse" id="collapseExample2">
-            <div class="card card-body">
-                {% for q, r in dataPackge_chat %}
-                    <p class="d-inline-flex gap-1">
-                        <button class="btn2" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExampleChat{{q.id}}" aria-expanded="false" aria-controls="collapseExampleChat{{q.id}}">
-                            <span>{{q.data}}</span>
-                        </button>
-                        <button type="button" class="close" onclick="deleteMessage({{q.id}})">
-                            <span aria-hidden="true">Delete &times;</span>
-                        </button>
-                    </p>
-                    <div class="collapse" id="collapseExampleChat{{q.id}}">
-                        <div class="card card-body">
-                            <p class="res btn4">{{r.data}}<small>{{q.date}}</small></p>
+    <!-- User Info Section -->
+    <div class="glass-card mb-4 overflow-hidden">
+        <div class="p-4 bg-light-transparent border-bottom d-flex justify-content-between align-items-center" data-bs-toggle="collapse" data-bs-target="#userInfoCollapse" style="cursor: pointer;">
+            <h4 class="m-0 text-primary"><i class="fa-solid fa-user-circle"></i> Profile Information</h4>
+            <i class="fa-solid fa-chevron-down text-muted"></i>
+        </div>
+        <div class="collapse show" id="userInfoCollapse">
+            <div class="p-4">
+                <div class="row g-3 text-center">
+                    <div class="col-md-3">
+                        <div class="p-3 rounded bg-white shadow-sm">
+                            <small class="text-muted fw-bold">Username</small>
+                            <p class="h5 m-0 text-dark">{{current_user.username}}</p>
                         </div>
                     </div>
-                {% endfor %}
-            </div>
-        </div>
-        {% else %}
-        <div class="collapse" id="collapseExample2">
-            <div class="card card-body">
-                <p class="text-center">No chats found</p>
-            </div>
-        </div>
-        {% endif %}
-    </div>
-    <!-- End history chat -->
-
-    <!-- Start history summary -->
-    <div class="history-summ" id="historySumm">
-        <p class="">
-            <button class="btn1" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample3" aria-expanded="false" aria-controls="collapseExample3">
-                History of your texts count: ({{count}})
-            </button>
-        </p>
-        {% if count != 0 %}
-        <div class="collapse" id="collapseExample3">
-            <form action="/search" method="post">
-                <input type="text" id="title" class="title" name="search" placeholder="write title">
-                <input type="submit" value="search" class="btn btn-primary">
-            </form>
-            <div class="card card-body">
-                {% for text, summary in dataPackge_Sum %}
-                    <p class="d-inline-flex gap-1">
-                        <button class="btn2" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExampleText{{text.id}}" aria-expanded="false" aria-controls="collapseExampleText{{text.id}}">
-                            {{text.title}}
-                        </button>
-                        <button type="button" class="close" onclick="deleteText({{text.id}})">
-                            <span aria-hidden="true">Delete &times;</span>
-                        </button>
-                    </p>
-                    <div class="collapse" id="collapseExampleText{{text.id}}">
-                        <div class="card card-body">
-                            <div class="cont">
-                                <span class="label">Text:</span>
-                                <p class="text btn4">{{text.data}}<small>Date: {{text.date}}</small></p>
-                                <span class="label">Abstractive Summary:</span>
-                                <p class="sumAbs btn4">{{summary.abs}}</p>
-                                <span class="label">Extractive Summary:</span>
-                                <p class="sumExt btn4">{{summary.ext}}</p>
-                            </div>
+                    <div class="col-md-3">
+                        <div class="p-3 rounded bg-white shadow-sm">
+                            <small class="text-muted fw-bold">First Name</small>
+                            <p class="h5 m-0 text-dark">{{current_user.fname}}</p>
                         </div>
                     </div>
-                {% endfor %}
+                    <div class="col-md-3">
+                        <div class="p-3 rounded bg-white shadow-sm">
+                            <small class="text-muted fw-bold">Last Name</small>
+                            <p class="h5 m-0 text-dark">{{current_user.lname}}</p>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="p-3 rounded bg-white shadow-sm">
+                            <small class="text-muted fw-bold">Email</small>
+                            <p class="h5 m-0 text-dark">{{current_user.email}}</p>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-        {% else %}
-        <div class="collapse" id="collapseExample3">
-            <div class="card card-body">
-                <p class="text-center">No texts found</p>
-            </div>
-        </div>
-        {% endif %}
     </div>
-    <!-- End history summary -->
+
+    <!-- Chat History Section -->
+    <div class="glass-card mb-4 overflow-hidden">
+        <div class="p-4 bg-light-transparent border-bottom d-flex justify-content-between align-items-center" data-bs-toggle="collapse" data-bs-target="#chatHistoryCollapse" style="cursor: pointer;">
+            <h4 class="m-0 text-primary"><i class="fa-solid fa-comments"></i> Chat History <span class="badge bg-primary rounded-pill ms-2">{{chats.total}}</span></h4>
+            <i class="fa-solid fa-chevron-down text-muted"></i>
+        </div>
+        <div class="collapse" id="chatHistoryCollapse">
+            <div class="p-3">
+                {% if chats.total > 0 %}
+                    <div class="vstack gap-3 mb-3">
+                    {% for q in chats.items %}
+                    <div class="bg-white p-3 rounded shadow-sm border item-card" id="chat-card-{{q.id}}">
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                             <a class="text-decoration-none text-dark fw-bold d-block text-truncate" data-bs-toggle="collapse" href="#chat{{q.id}}" role="button" style="max-width: 80%;">
+                                <i class="fa-regular fa-comment-dots text-primary me-2"></i> {{q.data}}
+                             </a>
+                             <button class="btn btn-sm btn-outline-danger border-0" onclick="deleteMessage({{q.id}})">
+                                <i class="fa-solid fa-trash"></i>
+                             </button>
+                        </div>
+                        <div class="collapse mt-2 ps-3 border-start border-3 border-primary" id="chat{{q.id}}">
+                             {% if q.responses %}
+                             <p class="mb-1 text-muted"><i class="fa-solid fa-robot"></i> {{q.responses[0].data}}</p>
+                             {% endif %}
+                             <small class="text-secondary">{{q.date}}</small>
+                        </div>
+                    </div>
+                    {% endfor %}
+                    </div>
+
+                    <!-- Pagination Controls -->
+                    {% if chats.pages > 1 %}
+                    <nav aria-label="Chats pagination">
+                        <ul class="pagination pagination-sm justify-content-center">
+                            <li class="page-item {% if not chats.has_prev %}disabled{% endif %}">
+                                <a class="page-link" href="{{ url_for('routes1.dashboard', page_chats=chats.prev_num, page_texts=texts.page) }}">Previous</a>
+                            </li>
+                            {% for page_num in chats.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
+                                {% if page_num %}
+                                    <li class="page-item {% if chats.page == page_num %}active{% endif %}">
+                                        <a class="page-link" href="{{ url_for('routes1.dashboard', page_chats=page_num, page_texts=texts.page) }}">{{ page_num }}</a>
+                                    </li>
+                                {% else %}
+                                    <li class="page-item disabled"><span class="page-link">...</span></li>
+                                {% endif %}
+                            {% endfor %}
+                            <li class="page-item {% if not chats.has_next %}disabled{% endif %}">
+                                <a class="page-link" href="{{ url_for('routes1.dashboard', page_chats=chats.next_num, page_texts=texts.page) }}">Next</a>
+                            </li>
+                        </ul>
+                    </nav>
+                    {% endif %}
+                {% else %}
+                    <div class="text-center p-4 text-muted">
+                        <i class="fa-regular fa-comments fa-2x mb-2"></i>
+                        <p>No chat history found.</p>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <!-- Summaries History Section -->
+    <div class="glass-card mb-4 overflow-hidden">
+        <div class="p-4 bg-light-transparent border-bottom d-flex justify-content-between align-items-center" data-bs-toggle="collapse" data-bs-target="#summaryHistoryCollapse" style="cursor: pointer;">
+            <h4 class="m-0 text-warning"><i class="fa-solid fa-file-lines"></i> Text Summaries <span class="badge bg-warning text-dark rounded-pill ms-2">{{texts.total}}</span></h4>
+            <i class="fa-solid fa-chevron-down text-muted"></i>
+        </div>
+        <div class="collapse" id="summaryHistoryCollapse">
+            {% if texts.total > 0 %}
+            <div class="p-3">
+                <form id="searchForm" action="/search" method="post" class="mb-3 d-flex gap-2" onsubmit="return validateSearch(event)">
+                    <input type="text" id="searchInput" class="form-control glass-input rounded-pill" name="search" placeholder="Search saved summaries...">
+                    <button type="submit" class="btn btn-primary rounded-circle"><i class="fa-solid fa-magnifying-glass"></i></button>
+                </form>
+
+                <script>
+                function validateSearch(e) {
+                    const searchInput = document.getElementById('searchInput').value.trim();
+                    if (!searchInput) {
+                        e.preventDefault();
+                        Swal.fire({
+                            icon: 'warning',
+                            title: 'Search Required',
+                            text: 'Please enter a search term',
+                            confirmButtonColor: '#6c5ce7'
+                        });
+                        return false;
+                    }
+                    return true;
+                }
+                </script>
+
+                <div class="vstack gap-3 mb-3">
+                {% for text in texts.items %}
+                <div class="bg-white p-3 rounded shadow-sm border item-card" id="text-card-{{text.id}}">
+                     <div class="d-flex justify-content-between align-items-center mb-2">
+                        <a class="text-decoration-none text-dark fw-bold" data-bs-toggle="collapse" href="#text{{text.id}}">
+                            <i class="fa-solid fa-align-left text-warning me-2"></i> {{text.title}}
+                        </a>
+                        <button class="btn btn-sm btn-outline-danger border-0" onclick="deleteText({{text.id}})">
+                            <i class="fa-solid fa-trash"></i>
+                        </button>
+                     </div>
+                     <div class="collapse mt-2 ps-3 border-start border-3 border-warning" id="text{{text.id}}">
+                        <div class="d-flex justify-content-between mb-2">
+                            <span class="badge bg-light text-dark">{{text.type|default('Text')}}</span>
+                            <small class="text-muted">{{text.date}}</small>
+                        </div>
+                        
+                        <div class="mb-2">
+                            <small class="fw-bold text-muted d-block">Original</small>
+                            <p class="text-muted small text-truncate">{{text.data}}</p>
+                        </div>
+
+                        {% if text.summaries %}
+                        <div class="bg-light p-2 rounded mb-2">
+                            <small class="fw-bold text-primary"><i class="fa-solid fa-wand-magic-sparkles"></i> Abstractive</small>
+                            <p class="mb-1 small">{{text.summaries[0].abs}}</p>
+                        </div>
+                        <div class="bg-light p-2 rounded">
+                            <small class="fw-bold text-success"><i class="fa-solid fa-scissors"></i> Extractive</small>
+                            <p class="mb-0 small">{{text.summaries[0].ext}}</p>
+                        </div>
+                        {% else %}
+                         <p class="small text-muted">No summary processed.</p>
+                        {% endif %}
+                     </div>
+                </div>
+                {% endfor %}
+                </div>
+
+                <!-- Pagination for Texts -->
+                {% if texts.pages > 1 %}
+                <nav aria-label="Texts pagination">
+                    <ul class="pagination pagination-sm justify-content-center">
+                        <li class="page-item {% if not texts.has_prev %}disabled{% endif %}">
+                            <a class="page-link" href="{{ url_for('routes1.dashboard', page_texts=texts.prev_num, page_chats=chats.page) }}">Previous</a>
+                        </li>
+                        {% for page_num in texts.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
+                            {% if page_num %}
+                                <li class="page-item {% if texts.page == page_num %}active{% endif %}">
+                                    <a class="page-link" href="{{ url_for('routes1.dashboard', page_texts=page_num, page_chats=chats.page) }}">{{ page_num }}</a>
+                                </li>
+                            {% else %}
+                                <li class="page-item disabled"><span class="page-link">...</span></li>
+                            {% endif %}
+                        {% endfor %}
+                        <li class="page-item {% if not texts.has_next %}disabled{% endif %}">
+                            <a class="page-link" href="{{ url_for('routes1.dashboard', page_texts=texts.next_num, page_chats=chats.page) }}">Next</a>
+                        </li>
+                    </ul>
+                </nav>
+                {% endif %}
+            </div>
+            {% else %}
+                <div class="text-center p-4 text-muted">
+                    <i class="fa-solid fa-file-excel fa-2x mb-2"></i>
+                    <p>No saved summaries found.</p>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+    
+    <!-- Section removed as legacy PDF Chat is replaced by Multi-Session RAG -->
+
 </div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", (event) => {
+        gsap.from(".glass-card", {
+            duration: 0.6, 
+            y: 30, 
+            opacity: 0, 
+            stagger: 0.15, 
+            ease: "power2.out"
+        });
+        gsap.from(".heading-glass", {duration: 1, y: -30, opacity: 0, ease: "back.out(1.7)"});
+    });
+
+    function deleteMessage(mId) {
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "This chat message will be permanently deleted!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#fe4a49',
+            cancelButtonColor: '#6c5ce7',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                fetch('/deletemessage', {
+                    method: 'POST',
+                    body: JSON.stringify({ mId: mId }),
+                    headers: { 'Content-Type': 'application/json' }
+                }).then(res => {
+                    if (res.ok) {
+                        gsap.to(`#chat-card-${mId}`, {
+                            duration: 0.4,
+                            opacity: 0,
+                            x: 50,
+                            height: 0,
+                            margin: 0,
+                            padding: 0,
+                            ease: "power2.in",
+                            onComplete: () => document.getElementById(`chat-card-${mId}`).remove()
+                        });
+                        const badge = document.querySelector('[data-bs-target="#chatHistoryCollapse"] .badge');
+                        if (badge) badge.innerText = parseInt(badge.innerText) - 1;
+                    }
+                });
+            }
+        });
+    }
+
+    function deleteText(textId) {
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "This summary will be permanently deleted!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#fe4a49',
+            cancelButtonColor: '#6c5ce7',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                fetch('/deletetext', {
+                    method: 'POST',
+                    body: JSON.stringify({ textId: textId }),
+                    headers: { 'Content-Type': 'application/json' }
+                }).then(res => {
+                    if (res.ok) {
+                        gsap.to(`#text-card-${textId}`, {
+                            duration: 0.4,
+                            opacity: 0,
+                            x: 50,
+                            height: 0,
+                            margin: 0,
+                            padding: 0,
+                            ease: "power2.in",
+                            onComplete: () => document.getElementById(`text-card-${textId}`).remove()
+                        });
+                        const badge = document.querySelector('[data-bs-target="#summaryHistoryCollapse"] .badge');
+                        if (badge) badge.innerText = parseInt(badge.innerText) - 1;
+                    }
+                });
+            }
+        });
+    }
+</script>
 
 {% endblock content %}

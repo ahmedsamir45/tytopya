@@ -1,47 +1,26 @@
-.btn4{
-    width: fit-content;
-    display: block;
-    padding: 10px;
-    text-align: center;
-    border: none;
-    border-radius: 30px;
-    background-color: rgb(205, 205, 196);
+/* Result Page Specifics */
+/* Most styles are handled by main.css and shared glass-card classes */
+
+.glass-card {
+    /* Replicate here if not global yet, or to ensure specific behavior */
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    border-radius: 20px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
 }
 
-.label{
-    display: block;
-    text-align: center;
-    width: fit-content;
-    padding: 10px;
-    margin: 10px auto;
-    background-color: rgb(220, 145, 239);
-    color: white;
-    border-radius: 50px;
-}
-.cont{
-    background-color: rgb(186, 179, 187) !important;
-    border-radius: 30px !important;
-    padding: 10px;
-}
-.close{
-    background-color: red;
-    color: white;
-    border: 1px white solid;
-    padding: 5px;
-    margin: 5px;
-    border-radius: 8px;
-}
-.close span{
-    color: white;
-}
-small{
-    background-color: white;
-    border-radius: 4px;
-    padding: 5px;
-    margin-left: 3px ;
+.glass-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(108, 92, 231, 0.15);
 }
 
-footer{
-    position: fixed;
-    bottom: 0;
-  }
+.text-preview {
+    overflow: hidden;
+}
+
+.badge {
+    padding: 8px 12px;
+    font-weight: 500;
+}

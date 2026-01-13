@@ -12,41 +12,47 @@ class Chatbox {
     }
 
     display() {
-        const {openButton, chatBox, sendButton} = this.args;
+        const { openButton, chatBox, sendButton } = this.args;
 
         openButton.addEventListener('click', () => this.toggleState(chatBox))
 
         sendButton.addEventListener('click', () => this.onSendButton(chatBox))
 
         const node = chatBox.querySelector('input');
-        node.addEventListener("keyup", ({key}) => {
+        node.addEventListener("keyup", ({ key }) => {
             if (key === "Enter") {
                 this.onSendButton(chatBox)
             }
         })
+
+        // Load history
+        this.loadHistory(chatBox);
+    }
+
+    loadHistory(chatbox) {
+        fetch('/getChatHistory')
+            .then(r => r.json())
+            .then(history => {
+                if (Array.isArray(history)) {
+                    this.messages = history;
+                    this.updateChatText(chatbox);
+                }
+            })
+            .catch(e => console.error("Failed to load history:", e));
     }
 
     toggleState(chatbox) {
         this.state = !this.state;
-        var chatBot = document.querySelector('.chatbox')
 
         // show or hides the box
-        if(this.state) {
+        if (this.state) {
             chatbox.classList.add('chatbox--active')
-            chatBot.style.zIndex = "12323456";
         } else {
             chatbox.classList.remove('chatbox--active')
-            chatBot.style.zIndex = "-11234354";
-            
         }
     }
 
     onSendButton(chatbox) {
-        const portNumber = window.location.port || "80";
-        let protocol = window.location.protocol;
-        if (protocol !== "https:") {
-            protocol = "http:";
-        }
         var textField = chatbox.querySelector('input');
         let text1 = textField.value
         if (text1 === "") {
@@ -55,41 +61,37 @@ class Chatbox {
 
         let msg1 = { name: "User", message: text1 }
         this.messages.push(msg1);
+        this.updateChatText(chatbox); // Immediate update for better UX
+        textField.value = ''
 
-        fetch(`${protocol}//${window.location.hostname}:${portNumber}/predictChat`, {
+        fetch('/predictChat', {
             method: 'POST',
             body: JSON.stringify({ message: text1 }),
-            mode: 'cors',
             headers: {
-              'Content-Type': 'application/json'
+                'Content-Type': 'application/json'
             },
-          })
-          .then(r => r.json())
-          .then(r => {
-            let msg2 = { name: "3bas", message: r.answer };
-            this.messages.push(msg2);
-            this.updateChatText(chatbox)
-            textField.value = ''
-
-        }).catch((error) => {
-            console.error('Error:', error);
-            this.updateChatText(chatbox)
-            textField.value = ''
-          });
+        })
+            .then(r => r.json())
+            .then(r => {
+                let msg2 = { name: "3bas", message: r.answer };
+                this.messages.push(msg2);
+                this.updateChatText(chatbox)
+            }).catch((error) => {
+                console.error('Error:', error);
+                // Optional: Remove last message if failed or show error
+            });
     }
 
     updateChatText(chatbox) {
         var html = '';
-        this.messages.slice().reverse().forEach(function(item, index) {
-            if (item.name === "3bas")
-            {
+        this.messages.slice().reverse().forEach(function (item, index) {
+            if (item.name === "3bas") {
                 html += '<div class="messages__item messages__item--visitor">' + item.message + '</div>'
             }
-            else
-            {
+            else {
                 html += '<div class="messages__item messages__item--operator">' + item.message + '</div>'
             }
-          });
+        });
 
         const chatmessage = chatbox.querySelector('.chatbox__messages');
         chatmessage.innerHTML = html;

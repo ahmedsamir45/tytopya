@@ -7,9 +7,8 @@
 
 <!-- css links and font font-awesome -->
     <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='css/main.css')}}">
-    <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='css/all.min.css')}}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='css/bootstrap.min.css')}}">
-    <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='css/bootstrap.min.css.map')}}">
 
 
     <!-- css custom  -->
@@ -50,14 +49,17 @@
           <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
             <ul class="navbar-nav">
               <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="{{ url_for('summarization1.summary')}}">Summary</a>
+                <a class="nav-link {% if request.endpoint == 'summarization1.summary' %}active{% endif %}" aria-current="page" href="{{ url_for('summarization1.summary')}}">Summary</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="{{ url_for('routes1.about')}}">About</a>
+                <a class="nav-link {% if request.endpoint == 'rag.chat_doc' %}active{% endif %}" aria-current="page" href="{{ url_for('rag.chat_doc')}}">Chat with Doc</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link {% if request.endpoint == 'routes1.about' %}active{% endif %}" aria-current="page" href="{{ url_for('routes1.about')}}">About</a>
               </li>
               {% if current_user.is_authenticated %}
               <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="{{ url_for('routes1.dashboard')}}">Dashboard</a>
+                <a class="nav-link {% if request.endpoint == 'routes1.dashboard' %}active{% endif %}" aria-current="page" href="{{ url_for('routes1.dashboard')}}">Dashboard</a>
               </li>
               <li class="nav-item logout ">
                 <a class="nav-link active " aria-current="page" href="{{ url_for('auth1.logout')}}">Logout</a>
@@ -78,21 +80,37 @@
       <!-- end nav bar -->
     <!-- start flash messages  -->
  <!-- Start flash messages -->
-{% with messages = get_flashed_messages(with_categories=true) %}
-{% if messages %}
-  {% for category, message in messages %}
-    <div class="alert alert-{{ category }} text-center  alter-dismissable fade show" >
-
-      {{ message }}
-
-      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-        <span aria-hidden="true">&times;</span>
-      </button>
-      
-    </div>
-  {% endfor %}
-{% endif %}
-{% endwith %}
+    <!-- SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    
+    <!-- Start flash messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <script>
+          document.addEventListener('DOMContentLoaded', function() {
+            {% for category, message in messages %}
+              var icon = 'info';
+              var title = 'Notification';
+              var cat = '{{ category }}';
+              
+              if (cat === 'success') { icon = 'success'; title = 'Success'; }
+              else if (cat === 'danger' || cat === 'error') { icon = 'error'; title = 'Error'; }
+              else if (cat === 'warning') { icon = 'warning'; title = 'Warning'; }
+              
+              Swal.fire({
+                icon: icon,
+                title: title,
+                text: '{{ message }}',
+                confirmButtonColor: '#6c5ce7',
+                timer: 4000,
+                timerProgressBar: true
+              });
+            {% endfor %}
+          });
+        </script>
+      {% endif %}
+    {% endwith %}
+    <!-- End flash messages -->
 <!-- End flash messages -->
 
     <!-- End flash messages  -->
@@ -103,8 +121,8 @@
         {% endblock content %}
 
        <!-- chatbot -->
-       <div class="container">
-        <div class="chatbox">
+     
+     
             <div class="chatbox__support">
                 <div class="chatbox__header">
                     
@@ -122,21 +140,14 @@
                 </div>
             </div>
            
-        </div>
-    </div>
+       
+
     <div class="chatbox__button">
-      <button><img src="../static/images/chatbox-icon.svg" /></button>
-  </div>
-      <!-- end chatbot -->
-      <footer>
-        <div>
-            <a href="https://linkedin.com/in/ahmed-samir-917ba22a5"  target="_blank"><i class="fa-brands fa-linkedin"></i></a>
-            <a href="https://github.com/ahmedsamir45"  target="_blank"><i class="fa-brands fa-github"></i></a>
-        </div>
-        <span><i class="fa-regular fa-copyright"></i> by Ahmed samir</span>
-    </footer>
+        <button><img src="../static/images/chatbox-icon.svg" /></button>
+    </div>
+    <!-- end chatbot -->
 
-
+  
         <!-- start javascript files -->
             {% if js %}
                 <script src=" {{ url_for('static',filename='js/' + js + '.js')  }} "></script>
@@ -154,15 +165,14 @@
 
         <script src="../static/js/main.js" type="module"></script>
         <script src="../static/js/bootstrap.bundle.min.js" defer></script>
-        <script src="../static/js/bootstrap.bundle.min.js.map" defer></script>
-        <script src="../static/js/all.min.js" defer></script>
+        <!-- FontAwesome loaded via CSS CDN -->
 
 
-        <!-- jQuery, Popper.js, and Bootstrap JS -->
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
+
+    <!-- GSAP Animations -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
     
     </body>
 </html>

@@ -1,104 +1,17 @@
+/* Dashboard Page Specifics */
 
-/* .dash div{
-    margin-bottom: 30px;
-} */
+/* 
+   The new dashboard uses consistent .glass-card classes from main.css 
+   and standard Bootstrap classes.
+   Minimal specific CSS needed here.
+*/
 
-.dash ul li {
-    margin: 20px;
-}
-
-.dash ul li p{
-    display: inline;
-}
-
-.info span{
-    width: 150px !important;
-    display: inline-block;
-    text-align: center;
+.bg-light-transparent {
+    background: rgba(255, 255, 255, 0.4);
+    backdrop-filter: blur(5px);
 }
 
-button.btn2{
-    width: 200px !important;
-}
-.btn4{
-    width: fit-content;
-    display: block;
-    padding: 10px;
-    text-align: center;
-    border: none;
-    border-radius: 30px;
-    background-color: rgb(205, 205, 196);
-}
-
-.label{
-    display: block;
-    text-align: center;
-    width: fit-content;
-    padding: 10px;
-    margin: 10px auto;
-    background-color: rgb(220, 145, 239);
-    color: white;
-    border-radius: 50px;
-}
-.cont{
-    background-color: rgb(186, 179, 187) !important;
-    border-radius: 30px !important;
-    padding: 10px;
-}
-.close{
-    background-color: red;
-    color: white;
-    border: 1px white solid;
-    padding: 5px;
-    margin: 5px;
-    border-radius: 8px;
-    height: fit-content;
-   
-}
-.close span{
-    color: white;
-}
-small{
-    background-color: white;
-    border-radius: 4px;
-    padding: 5px;
-    margin-left: 3px ;
-}
-
-form .btn{
-    width: fit-content;
-    margin: 20px auto;
-    display: block;
-}
-@media (max-width:780px) {
-    .card ul {
-        display: flex;
-        flex-direction: column;
-        padding: 0;
-        margin: 0;
-    }
-    .card ul li{
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        gap: 8px;
-    }
-    .card ul li span{
-        margin-right: 0;
-    }
-    .card{
-        padding: 0 !important;
-    }
-    .title{
-        width: 250px;
-    }
-
-}
-
-button.btn1{
-    margin: 70px auto;
-    display: block;
-    width: 270px !important;
-    text-align: center !important;
+.dashboard-container .accordion-button:focus {
+    box-shadow: none;
+    background-color: transparent;
 }

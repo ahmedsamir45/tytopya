@@ -7,49 +7,55 @@
     }
 </style>
 <div class="container ">
-    <form action="" method="POST">
+    <form id="loginForm" action="" method="POST" novalidate>
         {{ form.hidden_tag()}}
         <fieldset class="form-group">
-            <h2 class="heading"> Log In</h2>
+            <h2 class="heading">Log In</h2>
             <div class="form-group">
                 {{ form.email.label(class='form-control-label')}}
-                {% if form.email.errors%}
-                {{ form.email(class='form-control form-control-lg is-invalid')}}
-                <div class="invalid-feedback">
-                    {% for error in form.email.errors %}
-                    <span>{{error}}</span>
-                    {% endfor %}
-                </div>
-                {% else %}
-                {{ form.email(class='form-control form-control-lg')}}
-                {% endif %}
-
+                {{ form.email(class='form-control form-control-lg', id='email')}}
             </div>
             <div class="form-group">
                 {{ form.password.label(class='form-control-label')}}
-                {% if form.password.errors%}
-                {{ form.password(class='form-control form-control-lg is-invalid')}}
-                <div class="invalid-feedback">
-                    {% for error in form.password.errors %}
-                    <span>{{error}}</span>
-                    {% endfor %}
-                </div>
-                {% else %}
-                {{ form.password(class='form-control form-control-lg')}}
-                {% endif %}
-
+                {{ form.password(class='form-control form-control-lg', id='password')}}
             </div>
             <div class="form-group my-3">
-                {{ form.submit(class='btn1')}}
+                {{ form.submit(class='btn1', type='button', onclick='validateLogin(event)')}}
             </div>
-
         </fieldset>
     </form>
 
-  
     <small class="text-muted">
         Need An Account?
-        <a class="ml-2" href="{{url_for('auth1.register')}}"> Sign Up Here</a>
+        <a class="ml-2" href="{{url_for('auth1.register')}}">Sign Up Here</a>
     </small>
 </div>
-{% endblock content %} 
+
+<script src="{{ url_for('static', filename='js/form-validation.js') }}"></script>
+<script>
+function validateLogin(e) {
+    e.preventDefault();
+    
+    const email = document.getElementById('email').value;
+    const password = document.getElementById('password').value;
+    
+    // Validate email
+    if (!FormValidator.validateField(email, [
+        (val) => FormValidator.rules.required(val, 'Email'),
+        (val) => FormValidator.rules.email(val)
+    ])) {
+        return false;
+    }
+    
+    // Validate password
+    if (!FormValidator.validateField(password, [
+        (val) => FormValidator.rules.required(val, 'Password')
+    ])) {
+        return false;
+    }
+    
+    // If validation passes, submit the form
+    document.getElementById('loginForm').submit();
+}
+</script>
+{% endblock content %}

@@ -6,6 +6,7 @@ from flask_cors import CORS
 from flask_admin import Admin
 from dotenv import load_dotenv 
 import os
+from .celery_utils import celery_init_app
 
 
 load_dotenv()
@@ -14,7 +15,7 @@ app = Flask(__name__)
 db = SQLAlchemy()
 bcrypt = Bcrypt()
 login_manager = LoginManager()
-login_manager.login_view = "login"
+login_manager.login_view = "auth1.login"
 login_manager.login_message_category = "info"
 cros = CORS()
 
@@ -25,13 +26,24 @@ def create_app():
     app.config['SECRET_KEY'] =os.getenv("my_secrit_key")
     app.config["SQLALCHEMY_DATABASE_URI"] = 'sqlite:///tytopya.db'
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = True
+    app.config.from_mapping(
+        CELERY=dict(
+            broker_url=os.getenv("REDIS_URL", "redis://localhost:6379/0"),
+            result_backend=os.getenv("REDIS_URL", "redis://localhost:6379/0"),
+            task_ignore_result=False,
+            task_serializer='json',
+            result_serializer='json',
+            accept_content=['json'],
+        ),
+    )
+    celery_init_app(app)
 
     from .routes import routes1
     from .auth import auth1
     from .summarization import summarization1
     from .chatbot import chatbot1
     from .admin import adminnbp, MyAdminIndexView,MyModelView,UserModelView
-    from .models import User,Question,Texts,Response,Summaries,Feedbacks
+    from .models import User,Question,Texts,Response,Summaries,Feedbacks,PDFChat
     from .hidden import errors
     bcrypt.init_app(app)
     cros.init_app(app)
@@ -45,13 +57,16 @@ def create_app():
     admin1.add_view(MyModelView(Texts,db.session))
     admin1.add_view(MyModelView(Summaries,db.session))
     admin1.add_view(MyModelView(Feedbacks,db.session))
+    admin1.add_view(MyModelView(PDFChat,db.session))
     admin1.add_view(UserModelView(User,db.session))
 
+    from .rag import rag
     app.register_blueprint(adminnbp)
     app.register_blueprint(routes1)
     app.register_blueprint(auth1)
     app.register_blueprint(chatbot1)
     app.register_blueprint(summarization1)
+    app.register_blueprint(rag)
     app.register_blueprint(errors)
 
     with app.app_context():

@@ -16,8 +16,8 @@ class RegistrationForm(FlaskForm):
         validators=[
             DataRequired(),
             Regexp(
-               "^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&_]).{8,32}$"
-
+               r"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,32}$",
+               message="Password must be 8-32 characters long and include at least one uppercase letter, one lowercase letter, one number, and one special character."
             ),
         ],
     )
@@ -31,14 +31,14 @@ class RegistrationForm(FlaskForm):
         user = User.query.filter_by(username=username.data).first()
         if user:
             raise ValidationError(
-                "Username already exists! Please chosse a different one"
+                "Username already exists! Please choose a different one"
             )
 
     def validate_email(self, email):
         # with app.app_context():
         user = User.query.filter_by(email=email.data).first()
         if user:
-            raise ValidationError("Email already exists! Please chosse a different one")
+            raise ValidationError("Email already exists! Please choose a different one")
 
 class LoginForm(FlaskForm):
     email = StringField("Email", validators=[DataRequired(), Email()])

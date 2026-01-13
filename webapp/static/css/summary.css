@@ -1,173 +1,51 @@
+/* Summary Page Specifics */
 
-/* end navbar  */
-
-
-/* start text summerization */
-
-/* General styles */
-
-
-.containert {
-display: flex;
-gap: 20px;
-justify-content: center;
-align-items: center;
-flex-direction: column;
-margin: 20px;
-padding: 20px;
+/* Glass Card Global Overrides */
+.glass-input {
+    background: rgba(255, 255, 255, 0.5) !important;
+    border: 1px solid rgba(255, 255, 255, 0.3) !important;
+    backdrop-filter: blur(5px);
 }
 
-.texts {
-width: 300%;
-max-width: 60vw;
-min-height: 200px;
-border-radius: 20px;
-padding: 10px;
-border: none;
-outline: none;
+.glass-input:focus {
+    background: rgba(255, 255, 255, 0.9) !important;
+    box-shadow: 0 0 15px rgba(108, 92, 231, 0.2) !important;
 }
 
-.containert div {
-width: 100%;
-max-width: 700px;
-}
-form{
-display: flex;
-justify-content: center;
-align-items: center;
-gap: 20px;
-flex-direction: column;
-}
-.texts::-webkit-scrollbar {
-  width: 12px; /* Width of the scrollbar */
+/* Range Slider Customization */
+.form-range::-webkit-slider-thumb {
+    background: #6c5ce7;
 }
 
-.texts:-webkit-scrollbar-track {
-  background: #e9ecef; /* Background of the scrollbar track */
-  transition: 1s;
+/* Results Animation */
+.summary-results {
+    animation: fadeIn 0.5s ease-out;
 }
 
-.texts::-webkit-scrollbar-thumb {
-  background: #7947a7; /* Background of the scrollbar thumb */
-  border-radius: 6px; /* Rounded corners for the scrollbar thumb */
-  transition: 1s;
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+.text-primary {
+  color: #6c5ce7 !important;
+}
+/* Type Selector */
+.type-selector .btn-check:checked+.btn-outline-primary {
+    background-color: #6c5ce7;
+    border-color: #6c5ce7;
+    color: white !important;
+    box-shadow: 0 4px 10px rgba(108, 92, 231, 0.3);
 }
 
-.texts::-webkit-scrollbar-thumb:hover {
-  background: #681caa; /* Darker background on hover */
-  transition: 1s;
-}
-
-
-/* Summary styles */
-.summery {
-display: flex;
-flex-wrap: wrap;
-justify-content: center;
-gap: 20px;
-margin-top: 20px;
-}
-
-.abstractive,
-.extractive {
-flex: 1 1 50%;
-display: none ;
-}
-
-/* Default styles for summary */
-.summery span {
-color: #3d05e3;
-margin-left: 10px;
-}
-
-.summery p {
-
-border-radius: 20px;
-padding: 10px;
-line-height: 1.7;
-margin-top: 4px;
-box-shadow: 
-0px 0px 15px rgba(0, 0, 0, 0.3), /* Base shadow */
-0px 5px 15px rgba(0, 0, 0, 0.5), /* Black shadow, slightly below */
-0px -5px 15px rgba(0, 0, 0, 0.5), /* Black shadow, slightly above */
-5px 0px 15px rgba(0, 0, 0, 0.5), /* Black shadow, slightly to the right */
--5px 0px 15px rgba(0, 0, 0, 0.5); /* Black shadow, slightly to the left */
-
-background-color: rgb(251, 223, 223);
-
-}
-.copy{
-color: white !important;
-}
-
-@media (max-width: 768px) {
-.texts {
-max-width: 90vw;
-}
-
-.containert div {
-max-width: 90vw;
-}
-
-.summery {
-flex-direction: column;
-align-items: center;
-}
-
-.abstractive,
-.extractive {
-flex: 1 1 100%;
-
-}
-}
-
-
-.spain{
-  display: none;
-  width: 40px !important;
-  height: 40px !important;
-  border-radius: 50%;
-  border: 5px solid #e91e63;
-  transform: rotate(1turn);
-  transition: transform 3s;
-  border-left-color: transparent;
-  
-  background-size: 400%;
-  animation: spin 1s linear infinite;
-  
-  }
-  
-  @keyframes spin{
-    0%{
-      transform: rotate(0deg);
-      }
-      100%{
-        transform: rotate(360deg);
-        }
-}
-
-.active{
-  display: block;
-}
-
-
-.btn1{
-  animation: none;
-  background-color: #cccccc; /* Gray background */
-  color: #666666;           /* Gray text */
-  border: 1px solid #cccccc;
-  cursor: not-allowed !important;      /* Change cursor to indicate the button is disabled */
-}
-.activeAnimation{
-  color: white;
-  transition: 1s; /* Transition duration for other properties */
-  animation: changeColor ease infinite;
-  animation-duration: 1s; /* Total duration for the animation */
-  animation-direction: alternate;
-  cursor: pointer !important;
-
-}
-.btn3{
-  user-select: none;
-  cursor: pointer;
+.type-selector .btn-outline-primary {
+    color: #6c5ce7;
+    border-color: #6c5ce7;
+    background: transparent;
 }

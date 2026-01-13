@@ -2,100 +2,39 @@
 {% block content%}
 <div class="container ">
     <h2 class="heading">Register</h2>
-    <form action="" method="POST">
+    <form id="registerForm" action="" method="POST" novalidate>
         {{ form.hidden_tag()}}
         <fieldset class="form-group">
-            <legend class="border-bottom mb-4"> Create an Account</legend>
+            <legend class="border-bottom mb-4">Create an Account</legend>
             <div class="form-group">
                 {{ form.fname.label(class='form-control-label')}}
-                {% if form.fname.errors%}
-                {{ form.fname(class='form-control form-control-lg is-invalid')}}
-                <div class="invalid-feedback">
-                    {% for error in form.fname.errors %}
-                    <span>{{error}}</span>
-                    {% endfor %}
-                </div>
-                {% else %}
-                {{ form.fname(class='form-control form-control-lg')}}
-                {% endif %}
-
+                {{ form.fname(class='form-control form-control-lg', id='fname')}}
             </div>
             <div class="form-group">
                 {{ form.lname.label(class='form-control-label')}}
-                {% if form.lname.errors%}
-                {{ form.lname(class='form-control form-control-lg is-invalid')}}
-                <div class="invalid-feedback">
-                    {% for error in form.lname.errors %}
-                    <span>{{error}}</span>
-                    {% endfor %}
-                </div>
-                {% else %}
-                {{ form.lname(class='form-control form-control-lg')}}
-                {% endif %}
-
+                {{ form.lname(class='form-control form-control-lg', id='lname')}}
             </div>
             <div class="form-group">
                 {{ form.username.label(class='form-control-label')}}
-                {% if form.username.errors%}
-                {{ form.username(class='form-control form-control-lg is-invalid')}}
-                <div class="invalid-feedback">
-                    {% for error in form.username.errors %}
-                    <span>{{error}}</span>
-                    {% endfor %}
-                </div>
-                {% else %}
-                {{ form.username(class='form-control form-control-lg')}}
-                {% endif %}
-
+                {{ form.username(class='form-control form-control-lg', id='username')}}
             </div>
             <div class="form-group">
                 {{ form.email.label(class='form-control-label')}}
-                {% if form.email.errors%}
-                {{ form.email(class='form-control form-control-lg is-invalid')}}
-                <div class="invalid-feedback">
-                    {% for error in form.email.errors %}
-                    <span>{{error}}</span>
-                    {% endfor %}
-                </div>
-                {% else %}
-                {{ form.email(class='form-control form-control-lg')}}
-                {% endif %}
-
+                {{ form.email(class='form-control form-control-lg', id='email')}}
             </div>
             <div class="form-group">
                 {{ form.password.label(class='form-control-label')}}
-                {% if form.password.errors%}
-                {{ form.password(class='form-control form-control-lg is-invalid')}}
-                <div class="invalid-feedback">
-                    {% for error in form.password.errors %}
-                    <span>{{error}}</span>
-                    {% endfor %}
-                </div>
-                {% else %}
-                {{ form.password(class='form-control form-control-lg')}}
-                {% endif %}
-                <p>At least one lowercase letter.</p>
-                <p>At least one uppercase letter.</p>
-                <p>At least one digit.</p>
-                <p>At least one special character from the set @$!%*?&_</p>
-                <p>Matches between 8 and 32 characters from the specified character classes</p>
+                {{ form.password(class='form-control form-control-lg', id='password')}}
+                <small class="form-text text-muted">
+                    8+ characters, with uppercase, lowercase, and number.
+                </small>
             </div>
             <div class="form-group">
                 {{ form.confirm_password.label(class='form-control-label')}}
-                {% if form.confirm_password.errors%}
-                {{ form.confirm_password(class='form-control form-control-lg is-invalid')}}
-                <div class="invalid-feedback">
-                    {% for error in form.confirm_password.errors %}
-                    <span>{{error}}</span>
-                    {% endfor %}
-                </div>
-                {% else %}
-                {{ form.confirm_password(class='form-control form-control-lg')}}
-                {% endif %}
-
+                {{ form.confirm_password(class='form-control form-control-lg', id='confirm_password')}}
             </div>
             <div class="form-group">
-                {{ form.submit(class='btn1')}}
+                {{ form.submit(class='btn1', type='button', onclick='validateRegister(event)')}}
             </div>
         </fieldset>
     </form>
@@ -106,4 +45,63 @@
         </small>
     </div> 
 </div>
+
+<script src="{{ url_for('static', filename='js/form-validation.js') }}"></script>
+<script>
+function validateRegister(e) {
+    e.preventDefault();
+    
+    const fname = document.getElementById('fname').value;
+    const lname = document.getElementById('lname').value;
+    const username = document.getElementById('username').value;
+    const email = document.getElementById('email').value;
+    const password = document.getElementById('password').value;
+    const confirmPassword = document.getElementById('confirm_password').value;
+    
+    // Validate first name
+    if (!FormValidator.validateField(fname, [
+        (val) => FormValidator.rules.required(val, 'First name'),
+        (val) => FormValidator.rules.minLength(val, 2, 'First name')
+    ])) return false;
+    
+    // Validate last name
+    if (!FormValidator.validateField(lname, [
+        (val) => FormValidator.rules.required(val, 'Last name'),
+        (val) => FormValidator.rules.minLength(val, 2, 'Last name')
+    ])) return false;
+    
+    // Validate username
+    if (!FormValidator.validateField(username, [
+        (val) => FormValidator.rules.required(val, 'Username'),
+        (val) => FormValidator.rules.username(val)
+    ])) return false;
+    
+    // Validate email
+    if (!FormValidator.validateField(email, [
+        (val) => FormValidator.rules.required(val, 'Email'),
+        (val) => FormValidator.rules.email(val)
+    ])) return false;
+    
+    // Validate password
+    if (!FormValidator.validateField(password, [
+        (val) => FormValidator.rules.required(val, 'Password'),
+        (val) => FormValidator.rules.password(val)
+    ])) return false;
+    
+    // Validate password confirmation
+    if (!FormValidator.validateField(confirmPassword, [
+        (val) => FormValidator.rules.required(val, 'Password confirmation')
+    ])) return false;
+    
+    // Check passwords match
+    const matchResult = FormValidator.rules.match(password, confirmPassword, 'Passwords');
+    if (!matchResult.valid) {
+        FormValidator.showError(matchResult.message);
+        return false;
+    }
+    
+    // If validation passes, submit the form
+    document.getElementById('registerForm').submit();
+}
+</script>
 {% endblock content %}

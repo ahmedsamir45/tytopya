@@ -1,21 +1,28 @@
 {% extends "base.html"%}
 {% block content%}
-<div class="container">
-<h2 id="typed-text2" class="heading"></h2>
-<div class=" c_h">
-    
-    <img src="../static/images/home page.jpeg" class="home-img" id="homme-img" alt="test image">
-    <div class="land">
-        <p class="intro">Welcome to the forefront of innovation in natural language processing—our text summarization and chatbot platform harnesses 
-            the power of machine learning to transform vast amounts of text into concise, digestible summaries. Our cutting-edge algorithms are 
-            designed to understand context, extract key points, and generate summaries that capture the essence of the original content. Whether you’re
-             a researcher sifting through extensive documents or a business looking to streamline customer interactions, our intelligent chatbot and summarization 
-             tools empower you to stay ahead in the information age. Dive into the simplicity of our user-friendly 
-            interface and experience the synergy of machine learning and linguistic precision at your fingertips.</p>
+<div class="container" style="margin-top: 120px;"> <!-- Margin to clear fixed navbar -->
+    <div class="hero-section">
+        
+        <div class="intro-content">
+            <div class="typed-text-container">
+                <span id="typed-text2"></span>
+            </div>
+            
+            <p class="intro-text">
+                Welcome to the forefront of innovation in natural language processing. Our platform transforms vast amounts 
+                of text into concise, digestible summaries. Whether you’re a researcher or a business, empower yourself 
+                to stay ahead in the information age with our intelligent tools.
+            </p>
 
-        <a href="/summary" class="btn1 getStarted" id="getStarted">get started</a>
+            <a href="/summary" class="btn-cta">
+                Get Started <i class="fa-solid fa-arrow-right"></i>
+            </a>
+        </div>
+
+        <div class="hero-image-container">
+            <img src="../static/images/home page.jpeg" class="home-img" alt="AI Summarization Illustration">
+        </div>
 
     </div>
-</div>
 </div>
 {% endblock content%}

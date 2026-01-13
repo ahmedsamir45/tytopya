@@ -1,52 +1,113 @@
 {% extends "base.html"%}
 {% block content%}
    <!-- start text summerization  -->
-   <div class="container">
-<div class="containert">
+   <div class="container animate-section" style="margin-top: 100px; margin-bottom: 50px;">
     
-    <div class="heading"><h2>Enter your text</h2></div>
+    <div class="text-center mb-5">
+        <h2 class="heading-glass">Summarize Content</h2>
+        <p class="lead text-muted">Transform long documents into concise insights.</p>
+    </div>
 
-
-    <form action="{{ url_for('summarization1.predict')}}"method="post">
-        {% if current_user.is_authenticated %}
-        <input type="text" id="title" class="title" required placeholder="write title" name="title">
-        {% endif %}
-        <span class="btn3" onclick="paste()" id="paste" ><i class="fa-regular fa-paste"></i> Paste</span>
-        <textarea name="mean_radius" id="textS" class="texts"required placeholder="Enter your text" ></textarea>
-    
-        <button type="submit" class="btn1"id="btext" onclick="spain()" >get summary</button>
-        <div class="spain"></div>
-    </form>
-        <div id="summary" class="summery">
-            <div id="abstractive" class="abstractive">
-              
-                {% if summary_abs %}
-                <span id="abs_span">Abstractive Summary</span>
-                    <p class="abs_t" id="abs_t" >{{summary_abs}}</p>
-                    <span class="btn3 copy" id="click1"><i class="fa-regular fa-copy"></i> copy</span>
-                {% endif %}
-               
+    <!-- Main Glass Card Form -->
+    <div class="glass-card p-4 p-md-5 mx-auto" style="max-width: 800px;">
+        
+        <form action="{{ url_for('summarization1.predict')}}" method="post" enctype="multipart/form-data" class="summary-form" novalidate>
+            
+            {% if current_user.is_authenticated %}
+            <div class="mb-4">
+                <label for="title" class="form-label fw-bold">Project Title</label>
+                <input type="text" id="title" class="form-control glass-input" placeholder="Project Name / Document Title" name="title">
             </div>
-            <div id="extractive" class="extractive">
-               
-                {% if summary_ext %}
-                <span id="ext_span">Extractive Summary</span>
-                <p class="ext_t" id="ext_t">{{summary_ext}}</p>
-                <span class="btn3 copy" id="click2"><i class="fa-regular fa-copy"></i> copy</span>
-                {% endif %}
-             
+            {% endif %}
+
+            <!-- Type Selector -->
+            <div class="d-flex justify-content-center gap-3 mb-4">
+                <div class="type-selector">
+                    <input type="radio" class="btn-check" name="inputType" id="option1" value="text" checked onchange="toggleInput('text')">
+                    <label class="btn btn-outline-primary rounded-pill px-4" for="option1"><i class="fa-solid fa-align-left"></i> Text</label>
+
+                    <input type="radio" class="btn-check" name="inputType" id="option2" value="pdf" onchange="toggleInput('pdf')">
+                    <label class="btn btn-outline-primary rounded-pill px-4" for="option2"><i class="fa-solid fa-file-pdf"></i> PDF</label>
+                </div>
+            </div>
+
+            <!-- Text Input -->
+            <div id="textInputSection" class="input-section">
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                    <label class="form-label fw-bold">Content</label>
+                    <button type="button" class="btn btn-sm btn-light text-primary rounded-pill" onclick="paste()" id="paste"><i class="fa-regular fa-paste"></i> Paste</button>
+                </div>
+                <textarea name="mean_radius" id="textS" class="form-control glass-input" rows="8" placeholder="Enter or paste your text here..."></textarea>
+            </div>
+
+            <!-- PDF Input -->
+            <div id="pdfInputSection" class="input-section text-center p-4 border rounded-3 bg-light-transparent" style="display: none; border-style: dashed !important;">
+                <i class="fa-solid fa-cloud-arrow-up fa-3x text-primary mb-3"></i>
+                <p>Drag & drop your PDF here or click to browse</p>
+                <input type="file" name="pdf_file" accept=".pdf" class="form-control glass-input w-75 mx-auto">
+            </div>
+
+            <!-- Advanced Settings Toggle -->
+            <div class="mt-4 text-center">
+                <button type="button" class="btn btn-sm btn-link text-decoration-none" onclick="toggleSettings()">
+                    <i class="fa-solid fa-sliders"></i> Advanced Settings
+                </button>
+            </div>
+
+            <!-- Settings Panel -->
+            <div id="settingsPanel" class="settings-panel mt-3 p-3 rounded glass-card-inner" style="display: none; background: rgba(0,0,0,0.02);">
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label small">Min Length: <span id="minLenVal" class="fw-bold">50</span></label>
+                        <input type="range" class="form-range" name="min_length" min="10" max="200" value="50" oninput="document.getElementById('minLenVal').innerText = this.value">
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label small">Max Length: <span id="maxLenVal" class="fw-bold">300</span></label>
+                        <input type="range" class="form-range" name="max_length" min="100" max="1000" value="300" oninput="document.getElementById('maxLenVal').innerText = this.value">
+                    </div>
+                </div>
+            </div>
+        
+            <!-- Generate Button -->
+            <button type="submit" class="btn btn-primary w-100 rounded-pill py-3 mt-4 shadow-sm btn-generate" id="btext">
+                <span class="btn-text fw-bold"><i class="fa-solid fa-wand-magic-sparkles"></i> Generate Summary</span>
+                <div class="loader spinner-border spinner-border-sm text-light" role="status" style="display: none;"></div>
+            </button>
+        </form>
+
+        <!-- Results Section -->
+        <div id="summary" class="summary-results mt-5" style="display: {% if summary_abs %}block{% else %}none{% endif %};">
+            
+            <div class="glass-card mb-4 border-start border-5 border-primary p-4">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h5 class="text-primary mb-0"><i class="fa-solid fa-wand-magic-sparkles"></i> Abstractive Summary</h5>
+                    <button class="btn btn-sm btn-outline-secondary rounded-circle" onclick="copyToClipboard('abs_t')" title="Copy"><i class="fa-regular fa-copy"></i></button>
+                </div>
+                <p class="result-text lead fs-6" id="abs_t">{{summary_abs}}</p>
+            </div>
+            
+            <div class="glass-card mb-4 border-start border-5 border-success p-4">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h5 class="text-success mb-0"><i class="fa-solid fa-scissors"></i> Extractive Summary</h5>
+                    <button class="btn btn-sm btn-outline-secondary rounded-circle" onclick="copyToClipboard('ext_t')" title="Copy"><i class="fa-regular fa-copy"></i></button>
+                </div>
+                <p class="result-text text-muted small" id="ext_t">{{summary_ext}}</p>
             </div>
         </div>
     
     </div>
-    
-    <!-- end text summerization  -->
-    
-    
-  
-    
-    
-    
        
-      </div>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", (event) => {
+        gsap.from(".glass-card", {
+            duration: 0.8, 
+            y: 50, 
+            opacity: 0, 
+            ease: "power2.out"
+        });
+        gsap.from(".heading-glass", {duration: 1, y: -30, opacity: 0, ease: "back.out(1.7)"});
+    });
+</script>
 {% endblock content%}

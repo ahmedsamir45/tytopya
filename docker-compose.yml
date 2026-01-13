@@ -1,0 +1,40 @@
+services:
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    restart: always
+
+  web:
+    build: .
+    ports:
+      - "5000:5000"
+    environment:
+      - REDIS_URL=redis://redis:6379/0
+      - my_secrit_key=${my_secrit_key:-development_key}
+    volumes:
+      - ./instance:/app/instance
+      - ./chroma_db:/app/chroma_db
+      - ./uploads:/app/uploads
+    depends_on:
+      - redis
+    restart: always
+
+  worker:
+    build: .
+    command: celery -A celery_worker.celery_app worker --loglevel=info
+    environment:
+      - REDIS_URL=redis://redis:6379/0
+      - my_secrit_key=${my_secrit_key:-development_key}
+    volumes:
+      - ./instance:/app/instance
+      - ./chroma_db:/app/chroma_db
+      - ./uploads:/app/uploads
+    depends_on:
+      - redis
+    restart: always
+
+volumes:
+  instance:
+  chroma_db:
+  uploads:

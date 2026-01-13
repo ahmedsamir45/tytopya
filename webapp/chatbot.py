@@ -98,23 +98,75 @@ chatbot1= Blueprint("chatbot1",__name__)
 @chatbot1.post('/predictChat',  endpoint='predictChat')
 @chatbot1.get('/predictChat',  endpoint='predictChat')
 def predictChat():
-    text2=request.get_json().get("message")
-    print("======================================")
-    print(text2)
-    print(type(text2))
-    print("======================================")
+    data = request.get_json()
+    if not data or "message" not in data:
+        return jsonify({"answer": "Error: No message received"}), 400
+        
+    text2 = data.get("message")
+    print(f"Chat Message: {text2}")
+    
     ints = predict_class(text2)
     response = get_response(ints, intents)
+    
     if current_user.is_authenticated:
-        question = Question(data=text2, user_id=current_user.id)
-        res = Response( data=response, user_id=current_user.id)
         try:
-        
+            question = Question(data=text2, user_id=current_user.id)
             db.session.add(question)
-            db.session.add(res)
             db.session.commit()
+            
+            # Check if column exists before trying to save it
+            # This is a temporary measure until DB migration is successful
+            resp_args = {"data": response, "user_id": current_user.id}
+            try:
+                # Try setting it, SQLAlchemy might complain if column is missing from metadata or table
+                res = Response(data=response, user_id=current_user.id, question_id=question.id)
+                db.session.add(res)
+                db.session.commit()
+            except Exception as e:
+                print(f"Warning: Could not save response with question_id (likely missing column): {e}")
+                db.session.rollback()
+                # Fallback to no question_id
+                res = Response(data=response, user_id=current_user.id)
+                db.session.add(res)
+                db.session.commit()
         except Exception as e:
-            # Handle the exception, e.g., log the error
-            print(f"Error occurred: {e}")
+            print(f"Error occurred during chat save: {e}")
+            db.session.rollback()
+            
     message={"answer":response}
     return jsonify(message)
+
+@chatbot1.get('/getChatHistory')
+def getChatHistory():
+    if not current_user.is_authenticated:
+        return jsonify([])
+    
+    try:
+        # Get questions and responses sorted by date
+        questions = Question.query.filter_by(user_id=current_user.id).order_by(Question.date.asc()).all()
+        responses = Response.query.filter_by(user_id=current_user.id).order_by(Response.date.asc()).all()
+        
+        history = []
+        q_idx = 0
+        r_idx = 0
+        
+        # Interleave questions and responses based on timestamp
+        while q_idx < len(questions) or r_idx < len(responses):
+            if q_idx < len(questions) and r_idx < len(responses):
+                if questions[q_idx].date <= responses[r_idx].date:
+                    history.append({'name': 'User', 'message': questions[q_idx].data})
+                    q_idx += 1
+                else:
+                    history.append({'name': '3bas', 'message': responses[r_idx].data})
+                    r_idx += 1
+            elif q_idx < len(questions):
+                history.append({'name': 'User', 'message': questions[q_idx].data})
+                q_idx += 1
+            else:
+                history.append({'name': '3bas', 'message': responses[r_idx].data})
+                r_idx += 1
+                
+        return jsonify(history)
+    except Exception as e:
+        print(f"Failed to load chat history: {e}")
+        return jsonify([{"name": "3bas", "message": "System: Unable to load history from database."}])

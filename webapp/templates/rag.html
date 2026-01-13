@@ -1,0 +1,110 @@
+{% extends "base.html" %}
+
+{% block content %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/rag.css') }}">
+
+<div class="container animate-section" style="margin-top: 100px; margin-bottom: 50px;">
+    
+    <div class="text-center mb-5">
+        <h2 class="heading-glass">Chat with Documents</h2>
+        <p class="lead text-muted">Upload a PDF and get instant answers.</p>
+    </div>
+
+    <!-- Split Layout: Doc Upload (Left) & Chat (Right) -->
+    <div class="row g-3" style="height: 80vh;">
+        
+        <!-- Sidebar: Sessions -->
+        <div class="col-md-2 h-100">
+            <div class="glass-card h-100 p-3 d-flex flex-column">
+                <button class="btn btn-primary w-100 mb-3 rounded-pill" onclick="createNewSession()">
+                    <i class="fa-solid fa-plus"></i> New Chat
+                </button>
+                <div id="sessions-list" class="flex-grow-1 overflow-auto pe-1">
+                    <!-- Session items will be loaded here -->
+                    <div class="text-center text-muted small mt-4">Loading sessions...</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Middle Panel: Document Management -->
+        <div class="col-md-3 h-100">
+            <div class="glass-card h-100 p-3 d-flex flex-column text-center">
+                <h5 class="mb-3 text-primary"><i class="fa-solid fa-folder-open"></i> Documents</h5>
+                
+                <div id="drop-area" class="upload-area border-dashed p-4 rounded-3 mb-3" style="border: 2px dashed #a29bfe; background: rgba(255,255,255,0.4); cursor: pointer;">
+                    <i class="fa-solid fa-cloud-arrow-up fa-2x text-secondary mb-2"></i>
+                    <p class="mb-0 small text-muted">PDF, CSV, TXT</p>
+                    <small class="text-muted d-block small">Drag & Drop or Click</small>
+                    <input type="file" id="fileElem" multiple style="display:none" accept=".pdf,.txt,.csv,.md">
+                </div>
+                
+                <div id="documents-list" class="flex-grow-1 overflow-auto text-start">
+                    <!-- Loaded documents for the active session -->
+                    <div class="text-center text-muted py-5 small">No files in this session.</div>
+                </div>
+
+                <div id="upload-status" class="mt-2 small text-secondary"></div>
+            </div>
+        </div>
+
+        <!-- Right Panel: Chat -->
+        <div class="col-md-7 h-100">
+            <div class="glass-card h-100 p-0 d-flex flex-column overflow-hidden position-relative">
+                <div class="chat-header p-3 border-bottom bg-white-transparent d-flex justify-content-between align-items-center">
+                    <h5 class="m-0" id="session-title"><i class="fa-solid fa-robot text-primary"></i> Assistant</h5>
+                    <div class="dropdown">
+                        <button class="btn btn-sm btn-light rounded-circle" data-bs-toggle="dropdown">
+                            <i class="fa-solid fa-ellipsis-vertical"></i>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end shadow-sm border-0">
+                            <li><a class="dropdown-item" href="#" onclick="renameCurrentSession()"><i class="fa-solid fa-pen small me-2"></i> Rename</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item text-danger" href="#" onclick="deleteCurrentSession()"><i class="fa-solid fa-trash small me-2"></i> Delete Session</a></li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <!-- Chat Messages Area -->
+                <div class="chat-messages p-4 flex-grow-1 overflow-auto" id="chat-box" style="scroll-behavior: smooth;">
+                    <!-- Messages will be loaded here -->
+                    <div class="empty-chat-state text-center py-5">
+                        <i class="fa-solid fa-comments fa-3x text-light-purple mb-3 opacity-50"></i>
+                        <p class="text-muted">Start a conversation or upload a document.</p>
+                    </div>
+                </div>
+
+                <!-- Input Area -->
+                <div class="input-area p-3 border-top bg-white-transparent d-flex gap-2">
+                    <input type="text" id="user-input" class="form-control glass-input rounded-pill shadow-none" placeholder="Ask anything..." disabled>
+                    <button id="send-btn" class="btn btn-primary rounded-circle shadow-sm" style="width: 48px; height: 48px;" disabled>
+                        <i class="fa-solid fa-paper-plane"></i>
+                    </button>
+                </div>
+
+                <!-- Overlay for no active session -->
+                <div id="session-overlay" class="position-absolute top-0 start-0 w-100 h-100 bg-white-transparent d-none align-items-center justify-content-center" style="z-index: 10; backdrop-filter: blur(2px);">
+                    <div class="text-center p-4">
+                        <div class="spinner-border text-primary mb-3 d-none" id="loading-spinner"></div>
+                        <h6 class="text-muted" id="overlay-text">Select a chat to begin</h6>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script src="{{ url_for('static', filename='js/rag.js') }}"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", (event) => {
+        gsap.from(".glass-card", {
+            duration: 0.8, 
+            y: 50, 
+            opacity: 0, 
+            stagger: 0.2, 
+            ease: "power2.out"
+        });
+        gsap.from(".heading-glass", {duration: 1, y: -30, opacity: 0, ease: "back.out(1.7)"});
+    });
+</script>
+{% endblock content %}

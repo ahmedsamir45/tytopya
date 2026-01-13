@@ -1,3 +1,6 @@
 TYpackges/
 __pycache__/
 .env
+chroma_db
+webaapp/models/
+models/

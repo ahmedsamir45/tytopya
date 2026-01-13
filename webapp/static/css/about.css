@@ -1,60 +1,87 @@
-button.btn1{
-    margin: 30px auto;
-    display: block;
-    width: 200px !important;
-    text-align: center !important;
+/* Glass Card - reused concept, specific tweaks here if needed */
+.glass-card {
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    border-radius: 20px;
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
-#collapseExample6{
+
+.glass-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 40px 0 rgba(31, 38, 135, 0.15);
+}
+
+.heading-glass {
+    font-family: 'Outfit', sans-serif;
+    font-weight: 800;
+    color: #6c5ce7;
+    margin-bottom: 10px;
+}
+
+/* Team Grid */
+.team-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.team-member {
     display: flex;
-    justify-content: center;
-}
-table{
-    margin: 30px auto;
-    display: block;
-    border: 1px rgb(166, 52, 166) solid;
-    border-radius: 30px 0 30px 0;
-    background-color: white;
-    box-shadow:13px 13px 20px #cbced1 ;
-    overflow: hidden;
-    width: fit-content;
+    flex-direction: column;
+    align-items: center;
+    padding: 15px;
+    border-radius: 15px;
+    background: rgba(255, 255, 255, 0.5);
+    transition: all 0.3s ease;
 }
 
-table td , table th {
-    margin: 10px;
-    padding: 10px;
-    text-align: center;
-    transition: 0.5s;
+.team-member:hover {
+    background: white;
+    transform: scale(1.05);
 }
 
-tr:not(:first-child):hover{
-    background-color: rgb(214, 121, 228);
+.avatar-placeholder {
+    width: 60px;
+    height: 60px;
+    background: linear-gradient(135deg, #6c5ce7, #a29bfe);
     color: white;
+    font-size: 24px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    margin-bottom: 10px;
 }
 
-.feadback h3{
-    margin:20px auto;
-    display: block;
-    width: fit-content;
-    padding: 10px;
-}
-textarea{
-    display: block;
-    width: 30rem;
-    margin: 20px auto;
-    height: 200px;
-    border-radius: 10px;
-    padding: 20px;
-}
-@media (max-width:780px) {
-    textarea{
-        width: 20rem;
-    }
-}
- .btn{
-    display: block !important;
-    margin: 10px auto;
-}
-.project a{
-    display: inline !important;
+.social-links {
+    display: flex;
+    gap: 15px;
+    margin-top: 10px;
 }
 
+.social-links a {
+    font-size: 1.2rem;
+    transition: transform 0.2s;
+}
+
+.social-links a:hover {
+    transform: scale(1.2);
+}
+
+/* Form Styles */
+.glass-input {
+    background: rgba(255, 255, 255, 0.9) !important;
+    border: 1px solid rgba(255, 255, 255, 0.5) !important;
+    border-radius: 15px !important;
+    padding: 15px !important;
+}
+
+.glass-input:focus {
+    box-shadow: 0 0 0 3px rgba(108, 92, 231, 0.2) !important;
+    border-color: #6c5ce7 !important;
+}
