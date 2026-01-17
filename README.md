@@ -44,7 +44,6 @@ tytopya/
 - **Local AI**: Optimized to run powerful LLMs locally using GGUF quantization.
 
 ## 5. References & Resources
-- 📄 [Our Research Paper](https://drive.google.com/file/d/1ITdAK8VfUG73gKDb3NsjtkKbkFqShuMP/view)
 - 📊 [ChatBot Dataset (Kaggle)](https://www.kaggle.com/datasets/ahmedsamir6788/chatbot-json-data-set)
 - 🧠 [Mistral-7B-Instruct-v0.2 (GGUF)](https://huggingface.co/TheBloke/Mistral-7B-Instruct-v0.2-GGUF) - The primary model for RAG.
 - 📝 [T5-Large (Summarization)](https://huggingface.co/google-t5/t5-large) - The model used for abstractive summarization.
