@@ -1,83 +1,61 @@
-# Tytopia AI 🤖
+# Tytopya 🚀
 
-**A modern, full-stack AI-powered web application** featuring document chat (RAG), text summarization, and an intelligent chatbot - all running locally with open-source models.
+## 1. Overview
+**Tytopya** is an advanced AI-powered platform designed for seamless information processing. It combines state-of-the-art **Text Summarization** (both Abstractive and Extractive) with a sophisticated **RAG (Retrieval-Augmented Generation) Chatbot**. Whether you need to condense large documents or hold an intelligent conversation about your private data, Tytopya provides a premium, glassmorphic user experience to get it done.
 
-[![Python](https://img.shields.io/badge/Python-3.11-blue.svg)](https://www.python.org/)
-[![Flask](https://img.shields.io/badge/Flask-3.0-green.svg)](https://flask.palletsprojects.com/)
-[![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+## 2. System Architecture
+The platform is built on a modern distributed architecture:
+- **Frontend**: A high-performance, responsive UI crafted with **Bootstrap 5**, **GSAP** for smooth animations, and **SweetAlert2** for elegant user feedback. The design follows a curated **Glassmorphism** aesthetic.
+- **Backend**: A robust **Flask** application serving as the orchestration layer, handling authentication, data management, and API routes.
+- **Asynchronous Processing**: Uses **Celery** with **Redis** as a message broker to handle heavy NLP and machine learning tasks without blocking the user interface.
+- **AI Core**:
+    - **Summarization**: Leverages **T5-Large** for abstractive summaries and **spaCy/NLTK** for extractive analysis.
+    - **RAG Engine**: Powered by **LangChain** and **CTransformers**, utilizing **GGUF** quantized models for high-quality local inferencing.
+- **Data Layer**:
+    - **Relation Database**: **SQLite** for user profiles, session metadata, and chat/summary history.
+    - **Vector Store**: **ChromaDB** for efficient document indexing and similarity search in the RAG pipeline.
 
-## ✨ Features
-
-### 🗂️ Chat with Documents (RAG)
-- Upload multiple PDFs, CSVs, or text files per session
-- Ask questions and get AI-powered answers based on your documents
-- Powered by **Mistral-7B** (GGUF) and **ChromaDB** vector storage
-- Multi-session support with conversation history
-
-### 📝 Text Summarization
-- **Abstractive summarization** using T5-large (generates new summaries)
-- **Extractive summarization** using SpaCy (selects key sentences)
-- Supports text input and PDF uploads
-- Asynchronous processing with Celery
-
-### 💬 General Chatbot
-- Intent-based conversational AI using Keras/TensorFlow
-- Trained on custom intents for site navigation and general queries
-- Persistent chat history per user
-
-### 🎨 Modern UI/UX
-- Glassmorphism design with smooth animations (GSAP)
-- Fully responsive Bootstrap 5 interface
-- Real-time feedback with SweetAlert2
-- Custom purple theme (#6c5ce7)
-
-## 📸 Screenshots
-
-### 🏠 Landing Page
-![Home Page 1](screenshots/home_page_1.png)
-![Home Page 2](screenshots/home_page_2.png)
-
-### 🔐 Authentication
-<p align="center">
-  <img src="screenshots/login_page.png" width="45%" />
-  <img src="screenshots/register_page.png" width="45%" />
-</p>
-
-### 📊 Dashboard
-![Dashboard 1](screenshots/dashboard_page_1.png)
-![Dashboard 2](screenshots/dashboard_page_2.png)
-
-### 🤖 AI Features
-#### Document Chat (RAG)
-![Chat RAG](screenshots/chat_rag.png)
-
-#### Text Summarization
-![Summarize Page](screenshots/summarize_page_2.png)
-
-#### Search Results
-![Search](screenshots/search_result_page.png)
-
-#### About Page
-![About 1](screenshots/about_page_1.png)
-![About 2](screenshots/about_page_2.png)
-
-## 🏗️ Architecture
-
-```
-Tytopia AI
-├── Frontend: HTML, CSS (Bootstrap 5), Vanilla JS
-├── Backend: Flask + SQLAlchemy
-├── Task Queue: Celery + Redis
-├── AI Models:
-│   ├── Mistral-7B (GGUF) - Document Q&A
-│   ├── T5-large - Abstractive Summarization
-│   ├── SpaCy - Extractive Summarization
-│   ├── Sentence-Transformers - Embeddings
-│   └── Keras - Intent Classification
-└── Database: SQLite (dev) / PostgreSQL (prod)
+## 3. File Architecture
+```text
+tytopya/
+├── app.py               # Entry point for the Flask application
+├── celery_worker.py    # Entry point for the Celery background worker
+├── webapp/              # Main application package
+│   ├── auth.py          # User authentication and registration logic
+│   ├── routes.py        # Core dashboard, search, and history routes
+│   ├── summarization.py # Text & PDF summarization pipelines (Celery-enabled)
+│   ├── rag.py           # Retrieval-Augmented Generation & ChromaDB logic
+│   ├── chatbot.py       # Intent-based supporting chatbot
+│   ├── models.py        # SQLAlchemy database schemas
+│   ├── static/          # Assets (CSS/JS/Images)
+│   └── templates/       # Jinja2 HTML templates
+├── instance/            # Local SQLite database storage
+├── chroma_db/           # Persistent vector search indexes
+├── uploads/             # User-uploaded documents (PDF, CSV, TXT)
+├── Dockerfile           # Application container definition
+└── docker-compose.yml   # Multi-service orchestration (Web, Worker, Redis)
 ```
 
-## 🚀 Quick Start
+## 4. Tools and Concepts
+- **Glassmorphism UI**: A premium design language featuring translucent layers and vivid highlights.
+- **Multi-Session RAG**: Support for independent chat sessions, each with its own set of documents and context memory.
+- **Deep Search**: A case-insensitive search engine that queries both original data and AI-generated outputs.
+- **AJAX Integration**: All heavy operations (deletion, submission) happen asynchronously for a "no-reload" experience.
+- **Local AI**: Optimized to run powerful LLMs locally using GGUF quantization.
+
+## 5. References & Resources
+- 📄 [Our Research Paper](https://drive.google.com/file/d/1ITdAK8VfUG73gKDb3NsjtkKbkFqShuMP/view)
+- 📊 [ChatBot Dataset (Kaggle)](https://www.kaggle.com/datasets/ahmedsamir6788/chatbot-json-data-set)
+- 🧠 [Mistral-7B-Instruct-v0.2 (GGUF)](https://huggingface.co/TheBloke/Mistral-7B-Instruct-v0.2-GGUF) - The primary model for RAG.
+- 📝 [T5-Large (Summarization)](https://huggingface.co/google-t5/t5-large) - The model used for abstractive summarization.
+- 📖 [Text-to-Text Transfer Transformer (T5) Paper](https://arxiv.org/abs/1910.10683) - Reference for the T5 architecture.
+
+## 6. How to Install
+> [!IMPORTANT]
+> **Models Download**: Due to their size, the AI models are not included in the repository. You must download them manually:
+> 1. Download `mistral-7b-instruct-v0.2.Q4_K_M.gguf` from the link above.
+> 2. Create the folder `webapp/models/` if it doesn't exist.
+> 3. Place the downloaded `.gguf` file inside `webapp/models/`.
 
 ### Prerequisites
 - Python 3.11+
