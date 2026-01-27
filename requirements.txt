@@ -207,12 +207,12 @@ PyPDF2==3.0.1
 pypdfium2==4.30.1
 PyPika==0.50.0
 pyproject_hooks==1.2.0
-PyQt5==5.15.11
-PyQt5-Qt5==5.15.2
-PyQt5_sip==12.15.0
-PyQtWebEngine==5.15.7
-PyQtWebEngine-Qt5==5.15.2
-pyreadline3==3.5.4
+PyQt5==5.15.11 ; sys_platform == 'win32'
+PyQt5-Qt5==5.15.2 ; sys_platform == 'win32'
+PyQt5_sip==12.15.0 ; sys_platform == 'win32'
+PyQtWebEngine==5.15.7 ; sys_platform == 'win32'
+PyQtWebEngine-Qt5==5.15.2 ; sys_platform == 'win32'
+pyreadline3==3.5.4 ; sys_platform == 'win32'
 PySocks==1.7.1
 pytest==9.0.2
 pytest-django==4.11.1
@@ -223,7 +223,7 @@ python-dotenv==1.0.1
 python3-openid==3.2.0
 pytube==15.0.0
 pytz==2024.1
-pywin32==308
+pywin32==308 ; sys_platform == 'win32'
 PyYAML==6.0.1
 pyzmq==26.2.0
 redis==7.1.0
@@ -262,14 +262,14 @@ tensorflow==2.14.0
 tensorflow-datasets==4.9.7
 tensorflow-docs @ git+https://github.com/tensorflow/docs@bbc0b9c70fc0bd4411793d1b0bcc56ef1dbc2405
 tensorflow-estimator==2.14.0
-tensorflow-intel==2.14.0
+tensorflow-intel==2.14.0 ; sys_platform == 'win32'
 tensorflow-io-gcs-filesystem==0.31.0
 tensorflow-metadata==1.16.1
 termcolor==2.3.0
 tflearn==0.5.0
 threadpoolctl==3.5.0
 tk==0.1.0
-tkPDFViewer==0.1
+tkPDFViewer==0.1 ; sys_platform == 'win32'
 tokenizers==0.22.2
 toml==0.10.2
 torch==2.9.1
