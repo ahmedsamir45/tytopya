@@ -40,11 +40,18 @@
                 <textarea name="mean_radius" id="textS" class="form-control glass-input" rows="8" placeholder="Enter or paste your text here..."></textarea>
             </div>
 
-            <!-- PDF Input -->
-            <div id="pdfInputSection" class="input-section text-center p-4 border rounded-3 bg-light-transparent" style="display: none; border-style: dashed !important;">
-                <i class="fa-solid fa-cloud-arrow-up fa-3x text-primary mb-3"></i>
-                <p>Drag & drop your PDF here or click to browse</p>
-                <input type="file" name="pdf_file" accept=".pdf" class="form-control glass-input w-75 mx-auto">
+            <!-- PDF Input with Drag & Drop -->
+            <div id="pdfInputSection" class="input-section" style="display: none;">
+                <div id="dropZone" class="drop-zone text-center p-5 border rounded-3 bg-light-transparent">
+                    <i class="fa-solid fa-cloud-arrow-up fa-3x text-primary mb-3"></i>
+                    <h5 class="mb-2">Drag & Drop your PDF here</h5>
+                    <p class="text-muted mb-3">or</p>
+                    <label for="pdfFileInput" class="btn btn-outline-primary rounded-pill px-4">
+                        <i class="fa-solid fa-folder-open me-2"></i>Browse Files
+                    </label>
+                    <input type="file" id="pdfFileInput" name="pdf_file" accept=".pdf" style="display: none;">
+                    <p class="text-muted small mt-3 mb-0" id="fileName"></p>
+                </div>
             </div>
 
             <!-- Advanced Settings Toggle -->
@@ -99,15 +106,109 @@
        
 </div>
 
+<style>
+    .drop-zone {
+        border: 3px dashed #6c5ce7 !important;
+        background: rgba(108, 92, 231, 0.05);
+        transition: all 0.3s ease;
+        cursor: pointer;
+    }
+    
+    .drop-zone:hover {
+        border-color: #5b4cc4 !important;
+        background: rgba(108, 92, 231, 0.1);
+        transform: scale(1.02);
+    }
+    
+    .drop-zone.drag-over {
+        border-color: #5b4cc4 !important;
+        background: rgba(108, 92, 231, 0.15);
+        transform: scale(1.05);
+        box-shadow: 0 8px 25px rgba(108, 92, 231, 0.3);
+    }
+    
+    .drop-zone.has-file {
+        border-color: #00b894 !important;
+        background: rgba(0, 184, 148, 0.1);
+    }
+</style>
+
 <script>
-    document.addEventListener("DOMContentLoaded", (event) => {
-        gsap.from(".glass-card", {
-            duration: 0.8, 
-            y: 50, 
-            opacity: 0, 
-            ease: "power2.out"
-        });
-        gsap.from(".heading-glass", {duration: 1, y: -30, opacity: 0, ease: "back.out(1.7)"});
+    // Drag and Drop Functionality
+    const dropZone = document.getElementById('dropZone');
+    const fileInput = document.getElementById('pdfFileInput');
+    const fileName = document.getElementById('fileName');
+
+    // Prevent default drag behaviors
+    ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+        dropZone.addEventListener(eventName, preventDefaults, false);
+        document.body.addEventListener(eventName, preventDefaults, false);
     });
+
+    function preventDefaults(e) {
+        e.preventDefault();
+        e.stopPropagation();
+    }
+
+    // Highlight drop zone when dragging over it
+    ['dragenter', 'dragover'].forEach(eventName => {
+        dropZone.addEventListener(eventName, () => {
+            dropZone.classList.add('drag-over');
+        }, false);
+    });
+
+    ['dragleave', 'drop'].forEach(eventName => {
+        dropZone.addEventListener(eventName, () => {
+            dropZone.classList.remove('drag-over');
+        }, false);
+    });
+
+    // Handle dropped files
+    dropZone.addEventListener('drop', (e) => {
+        const files = e.dataTransfer.files;
+        handleFiles(files);
+    }, false);
+
+    // Handle file input change
+    fileInput.addEventListener('change', (e) => {
+        handleFiles(e.target.files);
+    });
+
+    // Click to browse
+    dropZone.addEventListener('click', () => {
+        fileInput.click();
+    });
+
+    function handleFiles(files) {
+        if (files.length > 0) {
+            const file = files[0];
+            
+            // Validate file type
+            if (file.type !== 'application/pdf') {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Invalid File',
+                    text: 'Please upload a PDF file only.',
+                    confirmButtonColor: '#6c5ce7'
+                });
+                return;
+            }
+            
+            // Validate file size (max 10MB)
+            if (file.size > 10 * 1024 * 1024) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'File Too Large',
+                    text: 'Please upload a PDF smaller than 10MB.',
+                    confirmButtonColor: '#6c5ce7'
+                });
+                return;
+            }
+            
+            // Update UI
+            dropZone.classList.add('has-file');
+            fileName.innerHTML = `<i class="fa-solid fa-file-pdf text-danger me-2"></i><strong>${file.name}</strong> (${(file.size / 1024 / 1024).toFixed(2)} MB)`;
+        }
+    }
 </script>
 {% endblock content%}

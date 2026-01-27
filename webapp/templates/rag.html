@@ -3,7 +3,7 @@
 {% block content %}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/rag.css') }}">
 
-<div class="container animate-section" style="margin-top: 100px; margin-bottom: 50px;">
+<div class="container animate-section" style="margin-top: 130px; margin-bottom: 50px;">
     
     <div class="text-center mb-5">
         <h2 class="heading-glass">Chat with Documents</h2>
@@ -68,7 +68,7 @@
                 <div class="chat-messages p-4 flex-grow-1 overflow-auto" id="chat-box" style="scroll-behavior: smooth;">
                     <!-- Messages will be loaded here -->
                     <div class="empty-chat-state text-center py-5">
-                        <i class="fa-solid fa-comments fa-3x text-light-purple mb-3 opacity-50"></i>
+                        <i class="fa-solid fa-comments text-primary fa-3x text-light-purple mb-3 opacity-50"></i>
                         <p class="text-muted">Start a conversation or upload a document.</p>
                     </div>
                 </div>
@@ -81,13 +81,6 @@
                     </button>
                 </div>
 
-                <!-- Overlay for no active session -->
-                <div id="session-overlay" class="position-absolute top-0 start-0 w-100 h-100 bg-white-transparent d-none align-items-center justify-content-center" style="z-index: 10; backdrop-filter: blur(2px);">
-                    <div class="text-center p-4">
-                        <div class="spinner-border text-primary mb-3 d-none" id="loading-spinner"></div>
-                        <h6 class="text-muted" id="overlay-text">Select a chat to begin</h6>
-                    </div>
-                </div>
             </div>
         </div>
     </div>
@@ -95,16 +88,4 @@
 </div>
 
 <script src="{{ url_for('static', filename='js/rag.js') }}"></script>
-<script>
-    document.addEventListener("DOMContentLoaded", (event) => {
-        gsap.from(".glass-card", {
-            duration: 0.8, 
-            y: 50, 
-            opacity: 0, 
-            stagger: 0.2, 
-            ease: "power2.out"
-        });
-        gsap.from(".heading-glass", {duration: 1, y: -30, opacity: 0, ease: "back.out(1.7)"});
-    });
-</script>
 {% endblock content %}

@@ -2,7 +2,7 @@
 {% block content%}
 <div class="container animate-section" style="margin-top: 100px; margin-bottom: 50px;">
     <div class="text-center mb-5">
-        <h2 class="heading-glass">About Tytopya</h2>
+        <h2 class="heading-glass">About Tytopia AI</h2>
         <p class="lead text-muted">Advanced Text Summarization & RAG Chatbot</p>
     </div>
 
@@ -36,12 +36,12 @@
         <h3 class="mb-4 text-center">Research Team</h3>
         <div class="text-center">
             {% set team = [
-                {'name': 'Ahmed Samir', 'role': 'AI Developer', 'img': 'ahmed_samir.png', 'email': 'ahmedsamer6788@gmail.com', 'link': 'https://drive.google.com/drive/u/0/folders/1rR8PseIKDfnAgEscw6UfLx4gKKL7I9MZ'}
+                {'name': 'Ahmed Samir', 'role': 'Full Stack Developer', 'email': 'ahmedsamer6788@gmail.com', 'link': 'https://drive.google.com/drive/u/0/folders/1rR8PseIKDfnAgEscw6UfLx4gKKL7I9MZ'}
             ] %}
             
             {% for member in team %}
             <div class="team-member p-3">
-                <img src="{{ url_for('static', filename='images/' + member.img) }}" alt="{{ member.name }}" class="rounded-circle mb-3 shadow-sm" style="width: 150px; height: 150px; object-fit: cover; border: 3px solid var(--primary-color);">
+               
                 <h5>{{ member.name }}</h5>
                 <p class="small text-muted mb-2">{{ member.role }}</p>
                 <div class="social-links">
@@ -67,14 +67,32 @@
 
 <script>
     document.addEventListener("DOMContentLoaded", (event) => {
-        gsap.from(".glass-card", {
-            duration: 0.8, 
-            y: 50, 
-            opacity: 0, 
-            stagger: 0.2, 
+        // Scroll-triggered animations (more reliable than entrance animations)
+        gsap.registerPlugin(ScrollTrigger);
+        
+        // Animate heading on load (simple fade-in, no opacity issues)
+        gsap.to(".heading-glass", {
+            opacity: 1,
+            y: 0,
+            duration: 0.8,
             ease: "power2.out"
         });
-        gsap.from(".heading-glass", {duration: 1, y: -30, opacity: 0, ease: "back.out(1.7)"});
+        
+        // Animate cards on scroll
+        gsap.utils.toArray(".glass-card").forEach((card, index) => {
+            gsap.from(card, {
+                scrollTrigger: {
+                    trigger: card,
+                    start: "top 85%",
+                    toggleActions: "play none none none"
+                },
+                y: 50,
+                opacity: 0,
+                duration: 0.6,
+                delay: index * 0.1,
+                ease: "power2.out"
+            });
+        });
 
         const feedbackForm = document.getElementById('feedbackForm');
         if (feedbackForm) {

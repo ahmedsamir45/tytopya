@@ -10,9 +10,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const sendBtn = document.getElementById('send-btn');
     const dropArea = document.getElementById('drop-area');
     const fileElem = document.getElementById('fileElem');
-    const sessionOverlay = document.getElementById('session-overlay');
-    const overlayText = document.getElementById('overlay-text');
-    const loadingSpinner = document.getElementById('loading-spinner');
     const sessionTitle = document.getElementById('session-title');
 
     // Initial Load
@@ -54,7 +51,6 @@ document.addEventListener('DOMContentLoaded', () => {
             sessionsList.innerHTML = '';
             if (sessions.length === 0) {
                 sessionsList.innerHTML = '<div class="text-center text-muted small mt-4">No chats yet.</div>';
-                showOverlay("Start a new chat to begin");
                 return;
             }
 
@@ -96,7 +92,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
         console.log(`Switching to session: ${sessionId}`);
         activeSessionId = sessionId;
-        showOverlay("Loading conversation...", true);
 
         // Update highlight in sidebar
         document.querySelectorAll('.session-item').forEach(el => {
@@ -119,7 +114,6 @@ document.addEventListener('DOMContentLoaded', () => {
             renderMessages(data.messages);
 
             // Cleanup & Enable
-            hideOverlay();
             userInput.disabled = false;
             sendBtn.disabled = data.documents.length === 0;
             if (data.documents.length === 0) {
@@ -130,7 +124,7 @@ document.addEventListener('DOMContentLoaded', () => {
             userInput.focus();
         } catch (err) {
             console.error("Switch session failed:", err);
-            showOverlay(`Error: ${err.message}. Try creating a new chat.`);
+
             // If it's a 404, maybe the session was deleted
             if (err.message.includes('404')) {
                 activeSessionId = null;
@@ -221,6 +215,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 method: 'POST',
                 body: formData
             });
+
+            if (!response.ok) {
+                const errorData = await response.json().catch(() => ({}));
+                throw new Error(errorData.error || `Server Error ${response.status}`);
+            }
+
             const data = await response.json();
 
             if (data.success) {
@@ -228,9 +228,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 checkTaskStatus(data.task_id, file.name);
             } else {
                 uploadStatus.innerHTML = `<span class="text-danger">Error: ${data.error}</span>`;
+                console.error("Upload failed:", data);
             }
         } catch (err) {
-            uploadStatus.innerHTML = `<span class="text-danger">Upload failed</span>`;
+            console.error("Upload exception:", err);
+            uploadStatus.innerHTML = `<span class="text-danger">Upload failed: ${err.message}</span>`;
+            Swal.fire('Upload Error', `Could not upload ${file.name}: ${err.message}`, 'error');
         }
     }
 
@@ -240,18 +243,26 @@ document.addEventListener('DOMContentLoaded', () => {
             try {
                 const r = await fetch(`/chat-doc/status/${taskId}`);
                 const data = await r.json();
-                console.log(`Task ${taskId} status:`, data.task_status);
+                console.log(`Task ${taskId} status:`, data.status);
 
-                if (data.task_status === 'SUCCESS') {
+                if (data.status === 'SUCCESS') {
                     clearInterval(interval);
                     console.log(`Task ${taskId} succeeded, refreshing session...`);
                     document.getElementById('upload-status').innerHTML = `<span class="text-success"><i class="fa-solid fa-check"></i> ${fileName} ready</span>`;
                     setTimeout(() => { document.getElementById('upload-status').innerHTML = ''; }, 3000);
                     switchSession(activeSessionId); // Refresh to show new files
-                } else if (data.task_status === 'FAILURE' || data.task_status === 'REVOKED') {
+                } else if (data.status === 'FAILURE' || data.status === 'REVOKED') {
                     clearInterval(interval);
                     console.error(`Task ${taskId} failed or revoked:`, data);
-                    document.getElementById('upload-status').innerHTML = `<span class="text-danger">Failed to process ${fileName}</span>`;
+
+                    let errorMsg = "Failed to process " + fileName;
+                    if (data.task_result && data.task_result.message) {
+                        errorMsg += `: ${data.task_result.message}`;
+                    } else if (data.task_result && data.task_result.error) {
+                        errorMsg += `: ${data.task_result.error}`;
+                    }
+
+                    document.getElementById('upload-status').innerHTML = `<span class="text-danger">${errorMsg}</span>`;
                 }
             } catch (err) {
                 console.error(`Poll error for task ${taskId}:`, err);
@@ -357,17 +368,4 @@ document.addEventListener('DOMContentLoaded', () => {
         chatBox.scrollTop = chatBox.scrollHeight;
     }
 
-    // --- Helpers ---
-
-    function showOverlay(text, showSpinner = false) {
-        sessionOverlay.classList.remove('d-none');
-        sessionOverlay.classList.add('d-flex');
-        overlayText.innerText = text;
-        loadingSpinner.classList.toggle('d-none', !showSpinner);
-    }
-
-    function hideOverlay() {
-        sessionOverlay.classList.add('d-none');
-        sessionOverlay.classList.remove('d-flex');
-    }
 });

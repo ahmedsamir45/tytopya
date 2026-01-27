@@ -2,6 +2,12 @@
 {% block content%}
 <div class="container" style="margin-top: 120px;"> <!-- Margin to clear fixed navbar -->
     <div class="hero-section">
+        <!-- Floating icons for AI feel -->
+        <div class="floating-icons">
+            <i class="fa-solid fa-brain icon-1"></i>
+            <i class="fa-solid fa-microchip icon-2"></i>
+            <i class="fa-solid fa-network-wired icon-3"></i>
+        </div>
         
         <div class="intro-content">
             <div class="typed-text-container">
@@ -20,9 +26,39 @@
         </div>
 
         <div class="hero-image-container">
-            <img src="../static/images/home page.jpeg" class="home-img" alt="AI Summarization Illustration">
+            <img src="../static/images/home page.png" class="home-img" alt="AI Summarization Illustration">
         </div>
 
+    </div>
+
+    <!-- Features Section -->
+    <div class="features-section mt-5 py-5">
+        <div class="text-center mb-5">
+            <h2 class="section-title">Why Choose Tytopia AI?</h2>
+        </div>
+        <div class="row g-4 text-center">
+            <div class="col-md-4">
+                <div class="feature-card glass-card p-4">
+                    <div class="feature-icon mb-3"><i class="fa-solid fa-bolt-lightning fa-3x text-primary"></i></div>
+                    <h3>Fast Summarization</h3>
+                    <p>Condense lengthy documents into key insights in seconds using state-of-the-art NLP models.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="feature-card glass-card p-4">
+                    <div class="feature-icon mb-3"><i class="fa-solid fa-comments fa-3x text-success"></i></div>
+                    <h3>Interactive RAG</h3>
+                    <p>Chat with your documents. Ask questions and get context-aware answers grounded in your data.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="feature-card glass-card p-4">
+                    <div class="feature-icon mb-3"><i class="fa-solid fa-shield-halved fa-3x text-info"></i></div>
+                    <h3>Secure & Private</h3>
+                    <p>Your data stays yours. We prioritize privacy and security in every interaction.</p>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 {% endblock content%}

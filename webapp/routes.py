@@ -21,13 +21,6 @@ def home():
     return render_template("home.html" , title = "home" ,custom="home",js="home")
 
 
-
-
-
-
-
-
-
 @routes1.post("/about")
 @routes1.get("/about")
 def about():
@@ -65,6 +58,26 @@ def dashboard():
                            texts=texts_pagination,
                            chats=chats_pagination)
 
+@routes1.route("/update_profile", methods=['POST'])
+@login_required
+def update_profile():
+    fname = request.form.get('fname')
+    lname = request.form.get('lname')
+    
+    if fname and lname:
+        current_user.fname = fname
+        current_user.lname = lname
+        try:
+            db.session.commit()
+            flash("Profile updated successfully!", "success")
+        except Exception as e:
+            db.session.rollback()
+            flash("Error updating profile.", "error")
+    else:
+        flash("First and Last name cannot be empty.", "warning")
+    
+    from flask import redirect, url_for
+    return redirect(url_for('routes1.dashboard'))
 
 
 
@@ -101,37 +114,60 @@ def delete_message():
 @routes1.route("/search", methods=["GET", "POST"])
 def findSearch():
     query_text = (request.form.get("search") or request.args.get("search", "")).strip().lower()
+    category = (request.form.get("category") or request.args.get("category", "all")).strip()
+    page = request.args.get('page', 1, type=int)
+    per_page = 10
+    
     if current_user.is_authenticated and query_text:
-        search_query = "%" + query_text + "%"
+        texts_results = []
+        chats_results = []
         
-        # Search in Summaries (Texts joined with Summaries for deep search)
-        texts_results = Texts.query.join(Summaries, isouter=True).filter(
-            Texts.user_id == current_user.id,
-            or_(
-                func.lower(Texts.title).contains(query_text),
-                func.lower(Texts.data).contains(query_text),
-                func.lower(Summaries.abs).contains(query_text),
-                func.lower(Summaries.ext).contains(query_text)
-            )
-        ).distinct().all()
+        # Search in Summaries if category is 'all' or 'summaries'
+        if category in ['all', 'summaries']:
+            texts_query = Texts.query.join(Summaries, isouter=True).filter(
+                Texts.user_id == current_user.id,
+                or_(
+                    func.lower(Texts.title).contains(query_text),
+                    func.lower(Texts.data).contains(query_text),
+                    func.lower(Summaries.abs).contains(query_text),
+                    func.lower(Summaries.ext).contains(query_text)
+                )
+            ).distinct()
+            texts_pagination = texts_query.paginate(page=page, per_page=per_page, error_out=False)
+            texts_results = texts_pagination.items
+        else:
+            texts_pagination = None
         
-        # Search in Chat History (Question joined with Response for deep search)
-        chats_results = Question.query.join(Response, isouter=True).filter(
-            Question.user_id == current_user.id,
-            or_(
-                func.lower(Question.data).contains(query_text),
-                func.lower(Response.data).contains(query_text)
-            )
-        ).distinct().all()
+        # Search in Chat History if category is 'all' or 'chats'
+        if category in ['all', 'chats']:
+            chats_query = Question.query.join(Response, isouter=True).filter(
+                Question.user_id == current_user.id,
+                or_(
+                    func.lower(Question.data).contains(query_text),
+                    func.lower(Response.data).contains(query_text)
+                )
+            ).distinct()
+            chats_pagination = chats_query.paginate(page=page, per_page=per_page, error_out=False)
+            chats_results = chats_pagination.items
+        else:
+            chats_pagination = None
         
-        # Combine if needed or pass separately
+        # Calculate total results
+        total_results = len(texts_results) + len(chats_results)
+        
         return render_template("result.html", 
                                custom="result", 
                                js="result", 
-                               texts=texts_results, 
+                               texts=texts_results,
                                chats=chats_results,
+                               texts_pagination=texts_pagination,
+                               chats_pagination=chats_pagination,
                                query=query_text,
-                               length=len(texts_results) + len(chats_results))
+                               category=category,
+                               length=total_results)
     else:
-        return render_template("result.html", custom="result", js="result", texts=[], chats=[], length=0)
+        return render_template("result.html", custom="result", js="result", 
+                             texts=[], chats=[], 
+                             texts_pagination=None, chats_pagination=None,
+                             query="", category="all", length=0)
 

@@ -1,6 +1,76 @@
-TYpackges/
+# Python
 __pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual Environment
+TYpackges/
+venv/
+ENV/
+env/
+
+# Flask
+instance/
+.webassets-cache
+
+# Database
+*.db
+*.sqlite
+*.sqlite3
+
+# Celery
+celerybeat-schedule
+celerybeat.pid
+
+# ChromaDB / Vector Stores
+chroma_db/
+*.chroma
+
+# Uploads
+uploads/
+
+# Models (too large for git)
+*.gguf
+*.bin
+*.h5
+*.pkl
+*.pth
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Environment variables
 .env
-chroma_db
-webaapp/models/
-models/
+.env.local
+
+# Redis
+dump.rdb
+forme/

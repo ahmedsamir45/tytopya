@@ -19,6 +19,8 @@
     font-weight: 800;
     color: #6c5ce7;
     margin-bottom: 10px;
+    opacity: 0;
+    transform: translateY(-20px);
 }
 
 /* Team Grid */

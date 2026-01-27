@@ -5,16 +5,16 @@
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="../static/images/tytopyalogo.png" type="image/x-icon">
 
+        <!-- css custom  -->
+        {% if custom %}
+        <link rel="stylesheet" href="{{url_for('static',filename='css/' + custom + '.css')  }} ">
+        {% endif %}
 <!-- css links and font font-awesome -->
-    <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='css/main.css')}}">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='css/bootstrap.min.css')}}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='css/main.css')}}">
 
 
-    <!-- css custom  -->
-    {% if custom %}
-    <link rel="stylesheet" href="{{url_for('static',filename='css/' + custom + '.css')  }} ">
-    {% endif %}
 
     <!-- google fonts -->
         <!-- Google Fonts Link For Icons -->
@@ -22,9 +22,9 @@
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@48,400,1,0" />
     <!-- mange title  -->
     {% if title %}
-        <title>TyTopya-{{title}}</title>
+        <title>Tytopia AI - {{title}}</title>
     {%else%}
-        <title>TyTopya</title>
+        <title>Tytopia AI</title>
     {% endif %}
     
 
@@ -39,7 +39,7 @@
             <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400..700&display=swap" rel="stylesheet">
-          <a class="navbar-brand logo " href="{{ url_for('routes1.home')}}" ><img src="../static/images/tytopyalogo.png" alt="tytopya"></a>
+          <a class="navbar-brand logo " href="{{ url_for('routes1.home')}}" ><img src="../static/images/tytopyalogo.png" alt="Tytopia AI"></a>
       
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>

@@ -27,6 +27,7 @@ MODEL_PATH = "webapp/models/mistral-7b-instruct-v0.2.Q4_K_M.gguf"
 if not os.path.exists(CHROMA_DB_DIR):
     os.makedirs(CHROMA_DB_DIR)
 
+# important
 @shared_task(bind=True)
 def process_document_task(self, file_path, session_id):
     """Celery task to process document (PDF, CSV, TXT) and store in session-specific vector store."""
@@ -175,6 +176,7 @@ def delete_session(session_id):
     db.session.commit()
     return jsonify({'success': True})
 
+# important
 @rag.route('/chat-doc/upload', methods=['POST'])
 @login_required
 def upload_doc():
@@ -226,6 +228,7 @@ def get_task_status(task_id):
             
     return jsonify(result_data)
 
+# important
 @rag.route('/chat-doc/ask', methods=['POST'])
 @login_required
 def ask():

@@ -31,3 +31,5 @@ test_*.py
 RESTART_*.md
 grep
 current_requirements.txt.bak
+forme/
+screenshots/

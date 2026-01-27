@@ -30,10 +30,10 @@ def summarize_task(self, raw_text, min_len, max_len, user_id, title, input_type)
         from webapp.models import Texts, Summaries
 
         # Load models inside task
-        device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+        # device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
         model_t5 = T5ForConditionalGeneration.from_pretrained('t5-large')
         tokenizer_t5 = T5Tokenizer.from_pretrained('t5-large')
-        model_t5.to(device)
+        # model_t5.to(device)
 
         try:
             nlp = spacy.load('en_core_web_sm')
